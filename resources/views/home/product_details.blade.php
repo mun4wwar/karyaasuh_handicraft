@@ -12,6 +12,10 @@
         align-items: center;
         padding: 30px;
     }
+    .detail-box
+    {
+        padding: 15px;
+    }
     </style>
 </head>
 
@@ -36,7 +40,7 @@
             <div class="row">
 
                 
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <div class="box">
 
                             <div class="div_center">
@@ -55,6 +59,10 @@
                                     <span>{{ $data->quantity }}</span>
                                 </h6>
                             </div>
+
+                            <div class="detail-box">
+                                    <p>{{ $data->description }}</p>
+                            </div>
                         </div>
                     </div>
 
@@ -65,10 +73,6 @@
 
 
     <!-- Product Details End -->
-
-
-
-
 
     <!-- info section -->
     @include('home.footer')
