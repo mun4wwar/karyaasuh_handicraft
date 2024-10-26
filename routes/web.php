@@ -35,3 +35,5 @@ route::get('product_search',[AdminController::class, 'product_search'])->middlew
 
 route::get('product_details/{id}',[HomeController::class,'product_details']);
 route::get('add_cart/{id}',[HomeController::class,'add_cart'])->middleware(['auth', 'verified']);
+route::get('mycart',[HomeController::class,'mycart'])->middleware(['auth', 'verified']);
+Route::get('delete_cart/{id}', [HomeController::class, 'delete_cart'])->middleware(['auth', 'verified']);
