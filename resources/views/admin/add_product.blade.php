@@ -66,7 +66,7 @@
                     </div>
                     <div class="input_deg">
                         <label for="">Jumlah Stok Produk</label>
-                        <input type="text" name="quantity" required>
+                        <input type="number" name="quantity" required>
                     </div>
                     <div class="input_deg">
                         <label for="">Kategori Produk</label>

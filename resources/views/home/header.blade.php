@@ -36,11 +36,22 @@
             </ul>
 
             <div class="user_option">
-                @if (Route::has('login')) 
+                @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('mycart') }}">
-                            <i class="fa fa-shopping-bag" aria-hidden="true">[{{ $count }}]</i>
+                        <a class="btn btn-primary position-relative" href="{{ url('mycart') }}" role="button">
+                            My Cart
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ $count }}
+                                <span class="visually-hidden" hidden>unread messages</span>
+                            </span>
                         </a>
+                        {{-- <button class="btn btn-warning" href="{{ url('mycart') }}">
+
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ $count }}
+                                <span class="visually-hidden" hidden>unread messages</span>
+                            </span>
+                        </button> --}}
                         <form class="form-inline ">
                             <button class="btn nav_search-btn" type="submit">
                                 <i class="fa fa-search" aria-hidden="true"></i>

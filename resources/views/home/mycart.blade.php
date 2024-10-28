@@ -57,7 +57,7 @@
                     <td><img width="150" src="/products/{{ $cart->product->image }}" alt=""></td>
                     <td>
                         <a class="btn btn-danger"
-                            onclick="confirmDelete('{{ url('delete_cart', $cart->id) }}')">Remove</a>
+                            onclick="confirmDelete('{{ url('delete_cart', $cart->id) }}')">Hapus</a>
                     </td>
                 </tr>
             @endforeach
@@ -73,7 +73,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Ya, Hapus barang ini.'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = url;
