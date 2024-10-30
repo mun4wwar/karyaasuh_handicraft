@@ -1,5 +1,5 @@
 <header class="header_section">
-    <nav class="navbar navbar-expand-lg custom_nav-container ">
+    <nav class="navbar navbar-expand-lg custom_nav-container">
         <a class="navbar-brand" href="{{ url('/') }}">
             <span>
                 Karya Asuh Handicrafts
@@ -11,24 +11,18 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  ">
+            <ul class="navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="shop.html">
-                        Shop
-                    </a>
+                    <a class="nav-link" href="shop.html">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="why.html">
-                        Why Us
-                    </a>
+                    <a class="nav-link" href="why.html">Why Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="testimonial.html">
-                        Testimonial
-                    </a>
+                    <a class="nav-link" href="testimonial.html">Testimonial</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.html">Contact Us</a>
@@ -38,21 +32,11 @@
             <div class="user_option">
                 @if (Route::has('login'))
                     @auth
-                        <a class="btn btn-primary position-relative" href="{{ url('mycart') }}" role="button">
-                            My Cart
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ $count }}
-                                <span class="visually-hidden" hidden>unread messages</span>
-                            </span>
+                        <a href="{{ url('mycart') }}" class="btn btn-outline-warning">
+                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                            {{ $count }}
                         </a>
-                        {{-- <button class="btn btn-warning" href="{{ url('mycart') }}">
-
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ $count }}
-                                <span class="visually-hidden" hidden>unread messages</span>
-                            </span>
-                        </button> --}}
-                        <form class="form-inline ">
+                        <form class="form-inline">
                             <button class="btn nav_search-btn" type="submit">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
@@ -64,20 +48,33 @@
                     @else
                         <a href="{{ url('/login') }}">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            <span>
-                                Login
-                            </span>
+                            <span>Login</span>
                         </a>
                         <a href="{{ url('/register') }}">
                             <i class="fa fa-vcard" aria-hidden="true"></i>
-                            <span>
-                                Register
-                            </span>
+                            <span>Register</span>
                         </a>
                     @endauth
                 @endif
             </div>
-
         </div>
     </nav>
 </header>
+
+<style>
+    /* CSS tambahan untuk memastikan header dan konten memiliki jarak yang cukup */
+
+    /* Jarak untuk konten utama agar tidak tertutup header */
+    .main-content {
+        padding-top: 80px; /* sesuaikan dengan tinggi header */
+    }
+
+    /* Styling lainnya jika diperlukan */
+    .navbar .navbar-nav .nav-link {
+        color: #333;
+    }
+
+    .navbar .navbar-nav .nav-link:hover {
+        color: #007bff;
+    }
+</style>
