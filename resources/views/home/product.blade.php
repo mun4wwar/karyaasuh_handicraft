@@ -17,7 +17,7 @@
                         <div class="detail-box">
                             <h6>{{ $products->title }}</h6>
                             <h6>
-                                <span>Rp {{ $products->price }}</span>
+                                <span>Rp. {{ $products->price }}</span>
                             </h6>
                         </div>
                         <div style="padding: 10px">

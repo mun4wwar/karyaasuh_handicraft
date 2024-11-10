@@ -56,7 +56,7 @@ class HomeController extends Controller
 
     public function add_cart($id)
     {
-        $product_id = $id;
+        $product_id = $id; 
         $user = Auth::user();
         $user_id = $user->id;
         $data = new Cart;

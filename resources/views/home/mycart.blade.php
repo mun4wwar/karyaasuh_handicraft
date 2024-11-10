@@ -89,7 +89,7 @@
                 <th>Product Title</th>
                 <th>Price</th>
                 <th>Image</th>
-                <th>Remove</th>
+                <th>Action</th>
             </tr>
 
             <?php

@@ -32,10 +32,13 @@ route::get('delete_product/{id}',[AdminController::class, 'delete_product'])->mi
 route::get('update_product/{id}',[AdminController::class, 'update_product'])->middleware(['auth','admin']);
 route::post('edit_product/{id}',[AdminController::class, 'edit_product'])->middleware(['auth','admin']);
 route::get('product_search',[AdminController::class, 'product_search'])->middleware(['auth','admin']);
+Route::get('view_orders', [AdminController::class, 'view_order'])->middleware(['auth', 'admin']);
+Route::get('on_the_way/{id}', [AdminController::class, 'on_the_way'])->middleware(['auth', 'admin']);
+Route::get('delivered/{id}', [AdminController::class, 'delivered'])->middleware(['auth', 'admin']);
 
+// User
 route::get('product_details/{id}',[HomeController::class,'product_details']);
 route::get('add_cart/{id}',[HomeController::class,'add_cart'])->middleware(['auth', 'verified']);
 route::get('mycart',[HomeController::class,'mycart'])->middleware(['auth', 'verified']);
 Route::get('delete_cart/{id}', [HomeController::class, 'delete_cart'])->middleware(['auth', 'verified']);
-
-Route::post('confirm_order', [HomeController::class, 'confirm_order'])->middleware(['auth', 'verified']);
+Route::post('confirm_order', [HomeController::class, 'confirm_order'])->middleware(['auth', 'verified']); 
