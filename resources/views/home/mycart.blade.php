@@ -89,6 +89,7 @@
                 <th>Product Title</th>
                 <th>Price</th>
                 <th>Image</th>
+                <th>Quantity</th>
                 <th>Action</th>
             </tr>
 
@@ -104,15 +105,24 @@
                     <td>Rp. {{ $cart->product->price }}</td>
                     <td><img width="150" src="/products/{{ $cart->product->image }}" alt=""></td>
                     <td>
+                        <form action="{{ url('update_cart_quantity', $cart->id) }}" method="POST"
+                            style="display: inline;">
+                            @csrf
+                            <button type="submit" name="action" value="decrease" class="btn btn-info">-</button>
+                            <input type="number" name="quantity" value="{{ $cart->quantity }}" min="1"
+                                style="width: 50px; text-align: center;" readonly>
+                            <button type="submit" name="action" value="increase" class="btn btn-info">+</button>
+                        </form>
+                    </td>
+
+                    <td>
                         <a class="btn btn-danger"
                             onclick="confirmDelete('{{ url('delete_cart', $cart->id) }}')">Hapus</a>
                     </td>
                 </tr>
 
                 <?php
-                
-                $value = $value + $cart->product->price;
-                
+                $value = $value + ($cart->product->price * $cart->quantity);
                 ?>
             @endforeach
 

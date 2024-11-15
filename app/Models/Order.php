@@ -18,4 +18,8 @@ class Order extends Model
     {
         return $this->hasOne('App\Models\Product','id','product_id');
     }
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

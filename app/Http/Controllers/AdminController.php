@@ -117,6 +117,7 @@ class AdminController extends Controller
 
     public function view_order()
     {
+        $total = Order::all()->sum('quantity');
         $data = Order::orderByRaw("
         CASE
             WHEN status = 'On the way' THEN 1
@@ -125,7 +126,7 @@ class AdminController extends Controller
         END
         ")->paginate(10);
 
-        return view('admin.order', compact('data'));
+        return view('admin.order', compact('data','total'));
     }
 
     public function on_the_way($id)

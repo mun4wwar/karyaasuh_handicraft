@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         $user = User::where('usertype','user')->get()->count();
         $product = Product::all()->count();
-        $order = Order::all()->count();
+        $order = Order::all()->sum('quantity');
         $delivered = Order::where('status','delivered')->get()->count();
         return view('admin.index',compact('user','product','order','delivered'));
     }
@@ -78,7 +78,7 @@ class HomeController extends Controller
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
             $cart = Cart::where('user_id', $userid)->get();
         }
         return view('home.mycart', compact('count', 'cart'));
@@ -127,6 +127,7 @@ class HomeController extends Controller
             $order->phone = $phone;
             $order->user_id = $userid;
             $order->product_id = $carts->product_id;
+            $order->quantity = $carts->quantity;
 
             $order->save();
         }
@@ -138,6 +139,20 @@ class HomeController extends Controller
             $data->delete();
         }
         toastr()->closeButton()->timeOut(5000)->addSuccess('Barang berhasil di Order.');
+        return redirect()->back();
+    }
+
+    public function updateQuantity(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+        if ($cart) {
+            if ($request->action == 'increase'){
+                $cart-> quantity +=1;
+            } elseif ($request->action == 'decrease' && $cart->quantity > 1){
+                $cart-> quantity -=1;
+            }
+            $cart->save();
+        }
         return redirect()->back();
     }
 }

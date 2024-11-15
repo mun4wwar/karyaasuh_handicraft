@@ -51,6 +51,7 @@
                             <th>Product Title</th>
                             <th>Price</th>
                             <th>Image</th>
+                            <th>Quantity</th>
                             <th>Status</th>
                             <th>Change Status</th>
                             <th>Print PDF</th>
@@ -65,6 +66,7 @@
                                 <td>Rp. {{ $order->product->price }}</td>
                                 <td><img width="150" src="products/{{ $order->product->image }}" alt="Product Image">
                                 </td>
+                                <td>{{ $order->quantity }}</td>
                                 <td>
                                     @if ($order->status == 'In progress')
                                         <span style="color: yellow">{{ $order->status }}</span>

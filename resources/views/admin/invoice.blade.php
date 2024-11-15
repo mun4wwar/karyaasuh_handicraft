@@ -14,6 +14,7 @@
         <h3>Phone Number : {{ $data->phone }}</h3>
 
         <h2>Product Title : {{ $data->product->title }}</h2>
+        <h2>Product Quantiy : {{ $data->quantity }}</h2>
         <h2>Product Price : {{ $data->product->price }}</h2>
         <img height="300" src="products/{{ $data->product->image }}" alt="Poto Produk">
     </center>
