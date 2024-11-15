@@ -6,12 +6,13 @@
             <div class="avatar"><img src="{{ asset('/admincss/img/avatar-6.jpg') }}" alt="..."
                     class="img-fluid rounded-circle"></div>
             <div class="title">
-                <h1 class="h5">Admin</h1>
+                <h1 class="h5">Awang</h1>
+                <p>Munawwar Hibatullah</p>
             </div>
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
         <ul class="list-unstyled">
-            <li class="active"><a href="{{ url('admin/dashboard') }}"> <i class="icon-home"></i>Beranda </a></li>
+            <li><a href="{{ url('admin/dashboard') }}"> <i class="icon-home"></i>Beranda </a></li>
 
             <li>
                 <a href="{{ url('view_category') }}"> <i class="icon-grid"></i>Kategori </a>

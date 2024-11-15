@@ -35,6 +35,7 @@ route::get('product_search',[AdminController::class, 'product_search'])->middlew
 Route::get('view_orders', [AdminController::class, 'view_order'])->middleware(['auth', 'admin']);
 Route::get('on_the_way/{id}', [AdminController::class, 'on_the_way'])->middleware(['auth', 'admin']);
 Route::get('delivered/{id}', [AdminController::class, 'delivered'])->middleware(['auth', 'admin']);
+Route::get('print_pdf/{id}', [AdminController::class, 'print_pdf'])->middleware(['auth', 'admin']);
 
 // User
 route::get('product_details/{id}',[HomeController::class,'product_details']);
