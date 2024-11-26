@@ -32,6 +32,9 @@
             <div class="user_option">
                 @if (Route::has('login'))
                     @auth
+                        <a href="{{ url('myorders') }}" class="btn btn-outline-warning">
+                            My Orders
+                        </a>
                         <a href="{{ url('mycart') }}" class="btn btn-outline-warning">
                             <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                             {{ $count }}
