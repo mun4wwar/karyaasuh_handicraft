@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Pest\Plugins\Parallel\Support\CompactPrinter;
 
@@ -154,5 +155,17 @@ class AdminController extends Controller
         $data = Order::find($id);
         $pdf = Pdf::loadView('admin.invoice', compact('data'));
         return $pdf->download('invoice.pdf');
+    }
+    public function laporan_penjualan()
+    {
+        // Ambil data pesanan
+        $data = Order::all();
+        
+        // Generate PDF
+        $pdf = PDF::loadView('admin.laporan', ['orders' => $data]);
+        
+        // return view('admin.laporan', compact('data'));
+        // Unduh file PDF
+        return $pdf->download('laporan_penjualan.pdf');
     }
 }

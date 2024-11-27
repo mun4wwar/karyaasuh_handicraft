@@ -40,43 +40,21 @@
     <div class="page-content">
         <div class="page-header">
             <div class="container-fluid">
-                <h2>Update Produk</h2>
+                <h2>Edit Suppplier</h2>
                 <div class="div_deg">
-                    <form action="{{ url('edit_product', $data->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url('update_supplier', $data->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="">
-                            <label for="">Nama Produk</label>
-                            <input type="text" name="title" value="{{ $data->title }}">
+                            <label for="">Nama Panti Asuhan</label>
+                            <input type="text" name="nama_panti_asuhan" value="{{ $data->nama_panti_asuhan }}">
                         </div>
                         <div class="">
-                            <label for="">Deskripsi</label>
-                            <textarea name="description">{{ $data->description }}</textarea>
+                            <label for="">Kontak</label>
+                            <input type="text" name="kontak" value="{{ $data->kontak }}">
                         </div>
                         <div class="">
-                            <label for="">Harga Produk</label>
-                            <input type="text" name="price" value="{{ $data->price }}">
-                        </div>
-                        <div class="">
-                            <label for="">Jumlah Stok Produk</label>
-                            <input type="number" name="quantity" value="{{ $data->quantity }}">
-                        </div>
-                        <div class="">
-                            <label for="">Kategori</label>
-                            <select name="category">
-                                <option value="{{ $data->category }}" hidden>{{ $data->category }}</option>
-                                @foreach ($category as $category)
-                                    <option value="{{ $category->category_name }}">{{ $category->category_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="">
-                            <label for="">Gambar Produk</label>
-                            <img width="150" src="/products/{{ $data->image }}">
-                        </div>
-                        <div class="">
-                            <label for="">Gambar Baru Produk</label>
-                            <input type="file" name="image">
+                            <label for="">Alamat</label>
+                            <input type="text" name="alamat" value="{{ $data->alamat }}">
                         </div>
                         <div class="">
                             <input type="submit" class="btn btn-success" value="Update Produk">

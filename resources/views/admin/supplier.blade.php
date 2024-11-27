@@ -49,7 +49,7 @@
     <div class="page-content">
         <div class="page-header">
             <div class="container-fluid">
-                <h1 style="margin-left: 50px">Daftar Produk Kerajinan</h1>
+                <h1 style="margin-left: 50px">Daftar Supplier Kerajinan</h1>
 
                 <form action="{{ url('product_search') }}" method="GET">
                     @csrf
@@ -60,34 +60,30 @@
                 <div class="div_deg">
                     <table class="table_deg">
                         <tr>
-                            <th>Nama Produk</th>
-                            <th>Deskripsi</th>
-                            <th>Harga</th>
-                            <th>Kategori</th>
-                            <th>Jumlah</th>
-                            <th>Gambar Produk</th>
+                            <th>No</th>
+                            <th>Nama Panti Asuhan</th>
+                            <th>Kontak</th>
+                            <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
-                        @foreach ($product as $products)
+                        @foreach ($suppliers as $supplier)
                             <tr>
-                                <td>{{ $products->title }}</td>
-                                <td>{!! Str::limit($products->description, 50) !!}</td>
-                                <td>{{ $products->price }}</td>
-                                <td>{{ $products->category }}</td>
-                                <td>{{ $products->quantity }}</td>
                                 <td>
-                                    <img height="120" src="products/{{ $products->image }}" alt="">
+                                    {{ ($suppliers->currentPage() - 1) * $suppliers->perPage() + $loop->iteration }}
                                 </td>
-                                <td><a class="btn btn-danger"
-                                        href="{{ url('delete_product', $products->id) }}">Hapus</a> <a
-                                        class="btn btn-success"
-                                        href="{{ url('update_product', $products->id) }}">Edit</a></td>
+                                <td>{{ $supplier->nama_panti_asuhan }}</td>
+                                <td>{{ $supplier->kontak }}</td>
+                                <td>{{ $supplier->alamat }}</td>
+                                <td>
+                                    <a href="{{ url('edit_supplier', $supplier->id) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ url('delete_supplier', $supplier->id) }}" class="btn btn-danger">Hapus</a>
+                                </td>
+                            </tr>
                         @endforeach
-                        </tr>
                     </table>
                 </div>
                 <div class="div_deg">
-                    {{ $product->onEachSide(1)->links() }}
+                    {{ $suppliers->onEachSide(1)->links() }}
                 </div>
             </div>
         </div>

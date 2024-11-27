@@ -42,6 +42,9 @@
     <div class="page-content">
         <div class="page-header">
             <div class="container-fluid">
+                <div class="clearfix m-4">
+                    <a href="{{ url('laporan_penjualan') }}" class="btn btn-primary float-right">Cetak Laporan Penjualan</a>
+                </div>
                 <div class="table_center">
                     <table>
                         <tr>
@@ -81,7 +84,7 @@
                                     <a class="btn btn-success" href="{{ url('delivered', $order->id) }}">Delivered</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-secondary" href="{{ url('print_pdf',$order->id) }}">Print PDF</a>
+                                    <a class="btn btn-secondary" href="{{ url('print_pdf', $order->id) }}">Print PDF</a>
                                 </td>
                             </tr>
                         @endforeach

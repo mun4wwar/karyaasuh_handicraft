@@ -158,9 +158,11 @@ class HomeController extends Controller
 
     public function myorders()
     {
-        $userid = Auth::user()->id;
-        $count = Cart::where('user_id', $userid)->sum('quantity');
+        $user = Auth::user()->id;
+        $count = Cart::where('user_id', $user)->sum('quantity');
 
-        return view('home.order', compact('count'));
+        $order = Order::where('user_id', $user)->get();
+
+        return view('home.order', compact('count','order'));
     }
 }

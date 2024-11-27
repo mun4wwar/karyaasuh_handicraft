@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 
@@ -36,6 +36,17 @@ Route::get('view_orders', [AdminController::class, 'view_order'])->middleware(['
 Route::get('on_the_way/{id}', [AdminController::class, 'on_the_way'])->middleware(['auth', 'admin']);
 Route::get('delivered/{id}', [AdminController::class, 'delivered'])->middleware(['auth', 'admin']);
 Route::get('print_pdf/{id}', [AdminController::class, 'print_pdf'])->middleware(['auth', 'admin']);
+Route::get('laporan_penjualan', [AdminController::class, 'laporan_penjualan'])->middleware(['auth', 'admin']);
+
+
+//Supplier
+Route::get('supplier', [SupplierController::class, 'index'])->middleware(['auth', 'admin']);
+Route::get('add_supplier', [SupplierController::class, 'add_supplier'])->middleware(['auth', 'admin']);
+Route::post('upload_supplier', [SupplierController::class, 'upload_supplier'])->middleware(['auth', 'admin']);
+Route::get('edit_supplier/{id}', [SupplierController::class, 'edit_supplier'])->middleware(['auth', 'admin']);
+Route::post('update_supplier/{id}', [SupplierController::class, 'update_supplier'])->middleware(['auth', 'admin']);
+route::get('delete_supplier/{id}',[SupplierController::class, 'delete_supplier'])->middleware(['auth','admin']);
+
 
 // User
 route::get('product_details/{id}',[HomeController::class,'product_details']);
@@ -43,5 +54,5 @@ route::get('add_cart/{id}',[HomeController::class,'add_cart'])->middleware(['aut
 route::get('mycart',[HomeController::class,'mycart'])->middleware(['auth', 'verified']);
 Route::get('delete_cart/{id}', [HomeController::class, 'delete_cart'])->middleware(['auth', 'verified']);
 Route::post('confirm_order', [HomeController::class, 'confirm_order'])->middleware(['auth', 'verified']);
-Route::post('/update_cart_quantity/{id}', [HomeController::class, 'updateQuantity'])->middleware(['auth', 'verified']);;
+Route::post('/update_cart_quantity/{id}', [HomeController::class, 'updateQuantity'])->middleware(['auth', 'verified']);
 route::get('myorders',[HomeController::class,'myorders'])->middleware(['auth', 'verified']);
