@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
@@ -13,11 +15,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = User::where('usertype','user')->get()->count();
+        $user = User::where('usertype', 'user')->get()->count();
         $product = Product::all()->count();
         $order = Order::all()->sum('quantity');
-        $delivered = Order::where('status','delivered')->get()->count();
-        return view('admin.index',compact('user','product','order','delivered'));
+        $delivered = Order::where('status', 'delivered')->get()->count();
+        return view('admin.index', compact('user', 'product', 'order', 'delivered'));
     }
 
     public function home()
@@ -26,7 +28,7 @@ class HomeController extends Controller
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
         } else {
             $count = ' ';
         }
@@ -38,7 +40,7 @@ class HomeController extends Controller
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
         } else {
             $count = ' ';
         }
@@ -51,7 +53,7 @@ class HomeController extends Controller
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
         } else {
             $count = ' ';
         }
@@ -60,7 +62,7 @@ class HomeController extends Controller
 
     public function add_cart($id)
     {
-        $product_id = $id; 
+        $product_id = $id;
         $user = Auth::user();
         $user_id = $user->id;
         $data = new Cart;
@@ -118,38 +120,45 @@ class HomeController extends Controller
         $userid = Auth::user()->id;
         $cart = Cart::where('user_id', $userid)->get();
 
-        foreach ($cart as $carts)
-        {
-            $order = new Order;
+        foreach ($cart as $carts) {
+            $product = Product::find($carts->product_id);
 
+            // Validasi stok
+            if ($product->stock < $carts->quantity) {
+                return redirect()->back()->with('error', "Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
+            }
+
+            // Kurangi stok produk
+            $product->decrementStock($carts->quantity);
+
+            // Simpan order
+            $order = new Order;
             $order->name = $name;
             $order->rec_address = $address;
             $order->phone = $phone;
             $order->user_id = $userid;
             $order->product_id = $carts->product_id;
             $order->quantity = $carts->quantity;
-
             $order->save();
         }
-        $cart_remove = Cart::where('user_id',$userid)->get();
 
-        foreach ($cart_remove as $remove)
-        {
-            $data = Cart::find($remove->id);
-            $data->delete();
-        }
-        toastr()->closeButton()->timeOut(5000)->addSuccess('Barang berhasil di Order.');
+        // Hapus semua keranjang pengguna setelah proses order berhasil
+        Cart::where('user_id', $userid)->delete();
+
+        toastr()->closeButton()->timeOut(5000)->addSuccess('Barang berhasil diorder.');
         return redirect()->back();
     }
 
+
     public function updateQuantity(Request $request, $id)
     {
-        $cart = Cart::find($id);
+        $cart = Cart::findOrFail($id);
+        $product = Product::find($cart->product_id);
         if ($cart) {
-            if ($request->action == 'increase'){
-                $cart-> quantity +=1;
-            } elseif ($request->action == 'decrease' && $cart->quantity > 1){
-                $cart-> quantity -=1;
+            if ($request->action == 'increase' && $cart->quantity < $product->stock) {
+                $cart->quantity += 1;
+            } elseif ($request->action == 'decrease' && $cart->quantity > $product->stock) {
+                $cart->quantity -= 1;
             }
             $cart->save();
         }
@@ -163,6 +172,23 @@ class HomeController extends Controller
 
         $order = Order::where('user_id', $user)->get();
 
-        return view('home.order', compact('count','order'));
+        return view('home.order', compact('count', 'order'));
     }
+
+    public function view_shop(Request $id)
+    {
+        $data = Product::all();
+    
+        // Periksa apakah pengguna login
+        $user = Auth::user();
+        $count = 0; // Default count jika pengguna tidak login
+    
+        if ($user) {
+            $userid = $user->id;
+            $count = Cart::where('user_id', $userid)->sum('quantity');
+        }
+    
+        return view('home.shop', compact('data', 'count'));
+    }
+    
 }

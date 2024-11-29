@@ -5,29 +5,26 @@
                 Karya Asuh Handicrafts
             </span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class=""></span>
-        </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="shop.html">Shop</a>
+                <li class="nav-item {{ Request::is('shop') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/shop') }}">Shop</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="why.html">Why Us</a>
+                <li class="nav-item {{ Request::is('why') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/why') }}">Why Us</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonial.html">Testimonial</a>
+                <li class="nav-item {{ Request::is('testimonial') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/testimonial') }}">Testimonial</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
                 </li>
             </ul>
+            
 
             <div class="user_option">
                 @if (Route::has('login'))
@@ -46,14 +43,14 @@
                         </form>
                         <form style="padding: 10px" method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <input class="btn btn-success" type="submit" value="Log Out">
+                            <input class="btn btn-danger" type="submit" value="Log Out">
                         </form>
                     @else
-                        <a href="{{ url('/login') }}">
+                        <a class="btn btn-primary" href="{{ url('login') }}">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             <span>Login</span>
                         </a>
-                        <a href="{{ url('/register') }}">
+                        <a class="btn btn-success" href="{{ url('register') }}">
                             <i class="fa fa-vcard" aria-hidden="true"></i>
                             <span>Register</span>
                         </a>
@@ -63,21 +60,17 @@
         </div>
     </nav>
 </header>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const navbar = document.querySelector(".custom_nav-container");
 
-<style>
-    /* CSS tambahan untuk memastikan header dan konten memiliki jarak yang cukup */
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) { // Ketika user scroll lebih dari 50px
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
+    });
+</script>
 
-    /* Jarak untuk konten utama agar tidak tertutup header */
-    .main-content {
-        padding-top: 80px; /* sesuaikan dengan tinggi header */
-    }
-
-    /* Styling lainnya jika diperlukan */
-    .navbar .navbar-nav .nav-link {
-        color: #333;
-    }
-
-    .navbar .navbar-nav .nav-link:hover {
-        color: #007bff;
-    }
-</style>

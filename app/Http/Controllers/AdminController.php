@@ -57,7 +57,7 @@ class AdminController extends Controller
         $data->title = $request->title;
         $data->description = $request->description;
         $data->price = $request->price;
-        $data->quantity = $request->quantity;
+        $data->stock = $request->stock;
         $data->category = $request->category;
         $image = $request->image;
         if ($image) {
@@ -97,7 +97,7 @@ class AdminController extends Controller
         $data->title = $request->title;
         $data->description = $request->description;
         $data->price = $request->price;
-        $data->quantity = $request->quantity;
+        $data->stock = $request->stock;
         $data->category = $request->category;
         $image = $request->image;
         if ($image) {
@@ -127,7 +127,7 @@ class AdminController extends Controller
         END
         ")->paginate(10);
 
-        return view('admin.order', compact('data','total'));
+        return view('admin.order', compact('data', 'total'));
     }
 
     public function on_the_way($id)
@@ -160,10 +160,17 @@ class AdminController extends Controller
     {
         // Ambil data pesanan
         $data = Order::all();
-        
+        $data = Order::orderByRaw("
+        CASE
+            WHEN status = 'On the way' THEN 1
+            WHEN status = 'In progress' THEN 2
+            ELSE 3
+        END
+        ");
+
         // Generate PDF
         $pdf = PDF::loadView('admin.laporan', ['orders' => $data]);
-        
+
         // return view('admin.laporan', compact('data'));
         // Unduh file PDF
         return $pdf->download('laporan_penjualan.pdf');

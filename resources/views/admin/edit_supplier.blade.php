@@ -57,7 +57,7 @@
                             <input type="text" name="alamat" value="{{ $data->alamat }}">
                         </div>
                         <div class="">
-                            <input type="submit" class="btn btn-success" value="Update Produk">
+                            <input type="submit" class="btn btn-success" value="Update Supplier">
                         </div>
                     </form>
                 </div>

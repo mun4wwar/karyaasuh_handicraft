@@ -10,21 +10,21 @@
     @include('home.css')
 
     <style type="text/css">
-        .div_center
-        {
+        .div_center {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 60px;
+            padding-top: 80px;
+            margin: 50px;
         }
-        table
-        {
+
+        table {
             border: 2px solid black;
             text-align: center;
             width: 800px;
         }
-        th
-        {
+
+        th {
             border: 2px solid skyblue;
             background-color: black;
             color: white;
@@ -32,8 +32,8 @@
             font-weight: bold;
             text-align: center;
         }
-        td
-        {
+
+        td {
             border: 2px solid skyblue;
             padding: 10px;
         }
@@ -46,7 +46,7 @@
         <!-- header section strats -->
         @include('home.header')
         <!-- end header section -->
-
+        <h1 class="text-center mt-5">My Orders</h1>
         <div class="div_center">
             <table>
                 <tr>
@@ -58,15 +58,15 @@
                 </tr>
 
                 @foreach ($order as $order)
-                <tr>
-                    <td>{{ $order->product->title }}</td>
-                    <td>{{ $order->product->price }}</td>
-                    <td>{{ $order->status }}</td>
-                    <td>{{ $order->quantity }}</td>
-                    <td>
-                        <img height="150" src="products/{{ $order->product->image }}" alt="">
-                    </td>
-                </tr>
+                    <tr>
+                        <td>{{ $order->product->title }}</td>
+                        <td>{{ $order->product->price }}</td>
+                        <td>{{ $order->status }}</td>
+                        <td>{{ $order->quantity }}</td>
+                        <td>
+                            <img height="150" src="products/{{ $order->product->image }}" alt="">
+                        </td>
+                    </tr>
                 @endforeach
 
             </table>
