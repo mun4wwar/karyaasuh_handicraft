@@ -111,45 +111,6 @@ class HomeController extends Controller
         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    public function confirm_order(Request $request)
-    {
-        $name = $request->name;
-        $address = $request->address;
-        $phone = $request->phone;
-
-        $userid = Auth::user()->id;
-        $cart = Cart::where('user_id', $userid)->get();
-
-        foreach ($cart as $carts) {
-            $product = Product::find($carts->product_id);
-
-            // Validasi stok
-            if ($product->stock < $carts->quantity) {
-                return redirect()->back()->with('error', "Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
-            }
-
-            // Kurangi stok produk
-            $product->decrementStock($carts->quantity);
-
-            // Simpan order
-            $order = new Order;
-            $order->name = $name;
-            $order->rec_address = $address;
-            $order->phone = $phone;
-            $order->user_id = $userid;
-            $order->product_id = $carts->product_id;
-            $order->quantity = $carts->quantity;
-            $order->save();
-        }
-
-        // Hapus semua keranjang pengguna setelah proses order berhasil
-        Cart::where('user_id', $userid)->delete();
-
-        toastr()->closeButton()->timeOut(5000)->addSuccess('Barang berhasil diorder.');
-        return redirect()->back();
-    }
-
-
     public function updateQuantity(Request $request, $id)
     {
         $cart = Cart::findOrFail($id);
@@ -165,6 +126,59 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
+    public function checkout(Request $request)
+    {
+        // $name = $request->name;
+        // $address = $request->address;
+        // $phone = $request->phone;
+
+        // $userid = Auth::user()->id;
+        // $cart = Cart::where('user_id', $userid)->get();
+
+        // foreach ($cart as $carts) {
+        //     $product = Product::find($carts->product_id);
+
+        //     // Validasi stok
+        //     if ($product->stock < $carts->quantity) {
+        //         return redirect()->back()->with('error', "Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
+        //     }
+
+        //     // Kurangi stok produk
+        //     $product->decrementStock($carts->quantity);
+
+        //     // Simpan order
+        //     $order = new Order;
+        //     $order->name = $name;
+        //     $order->rec_address = $address;
+        //     $order->phone = $phone;
+        //     $order->user_id = $userid;
+        //     $order->product_id = $carts->product_id;
+        //     $order->quantity = $carts->quantity;
+        //     $order->save();
+        // }
+
+        // // Hapus semua keranjang pengguna setelah proses order berhasil
+        // Cart::where('user_id', $userid)->delete();
+
+        // toastr()->closeButton()->timeOut(5000)->addSuccess('Barang berhasil diorder.');
+        // return redirect()->back();
+    }
+
+    public function showCheckoutPage()
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userid = $user->id;
+            $count = Cart::where('user_id', $userid)->sum('quantity');
+            $cart = Cart::where('user_id', $userid)->get();
+            $total = 0;
+            foreach ($cart as $item) {
+                $total += $item->product->price * $item->quantity;
+            }
+        }
+        return view('home.checkout', compact('count', 'cart', 'total'));
+    }
+
     public function myorders()
     {
         $user = Auth::user()->id;
@@ -178,17 +192,16 @@ class HomeController extends Controller
     public function view_shop(Request $id)
     {
         $data = Product::all();
-    
+
         // Periksa apakah pengguna login
         $user = Auth::user();
         $count = 0; // Default count jika pengguna tidak login
-    
+
         if ($user) {
             $userid = $user->id;
             $count = Cart::where('user_id', $userid)->sum('quantity');
         }
-    
+
         return view('home.shop', compact('data', 'count'));
     }
-    
 }

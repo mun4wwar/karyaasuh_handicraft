@@ -157,22 +157,21 @@ class AdminController extends Controller
         return $pdf->download('invoice.pdf');
     }
     public function laporan_penjualan()
-    {
-        // Ambil data pesanan
-        $data = Order::all();
-        $data = Order::orderByRaw("
+{
+    // Ambil data pesanan dengan pengurutan
+    $data = Order::orderByRaw("
         CASE
             WHEN status = 'On the way' THEN 1
             WHEN status = 'In progress' THEN 2
             ELSE 3
         END
-        ");
+    ")->get(); // Pastikan query dieksekusi dengan `get()`
 
-        // Generate PDF
-        $pdf = PDF::loadView('admin.laporan', ['orders' => $data]);
+    // Generate PDF
+    $pdf = PDF::loadView('admin.laporan', ['orders' => $data]);
 
-        // return view('admin.laporan', compact('data'));
-        // Unduh file PDF
-        return $pdf->download('laporan_penjualan.pdf');
-    }
+    // Unduh file PDF
+    return $pdf->download('laporan_penjualan.pdf');
+}
+
 }

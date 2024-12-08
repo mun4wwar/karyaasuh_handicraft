@@ -6,12 +6,33 @@
 <meta name="robots" content="all,follow">
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" href="{{ asset('/admincss/vendor/bootstrap/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('/admincss/vendor/bootstrap/css/plugins.min.css') }}">
+<link rel="stylesheet" href="{{ asset('/admincss/vendor/bootstrap/css/kaiadmin.min.css') }}">
 <!-- Font Awesome CSS-->
 <link rel="stylesheet" href="{{ asset('/admincss/vendor/font-awesome/css/font-awesome.min.css') }}">
 <!-- Custom Font Icons CSS-->
 <link rel="stylesheet" href="{{ asset('/admincss/css/font.css') }}">
-<!-- Google fonts - Muli-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+<!-- Fonts and icons -->
+<script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+<script>
+    WebFont.load({
+        google: {
+            families: ["Public Sans:300,400,500,600,700"]
+        },
+        custom: {
+            families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+            ],
+            urls: ["../assets/css/fonts.min.css"],
+        },
+        active: function() {
+            sessionStorage.fonts = true;
+        },
+    });
+</script>
 <!-- theme stylesheet-->
 <link rel="stylesheet" href="{{ asset('/admincss/css/style.default.css') }}" id="theme-stylesheet">
 <!-- Custom stylesheet - for your changes-->

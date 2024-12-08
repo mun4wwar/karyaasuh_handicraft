@@ -172,6 +172,7 @@
             color: #333;
             font-weight: bold;
             margin-top: 30px;
+            margin-bottom: 50px;
             padding: 15px 20px;
             background: linear-gradient(to right, #007bff, #00c6ff);
             border-radius: 8px;
@@ -219,7 +220,7 @@
         <!-- Order Form -->
         <div class="order-form">
             <h2>Informasi Pengiriman</h2>
-            <form action="{{ url('confirm_order') }}" method="POST">
+            <form action="{{ url('checkout_page') }}" method="POST">
                 @csrf
                 <label for="name">Nama Penerima</label>
                 <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" readonly>
