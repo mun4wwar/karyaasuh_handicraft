@@ -122,7 +122,7 @@ class AdminController extends Controller
         $data = Order::orderByRaw("
         CASE
             WHEN status = 'On the way' THEN 1
-            WHEN status = 'In progress' THEN 2
+            WHEN status = 'Pending' THEN 2
             ELSE 3
         END
         ")->paginate(10);

@@ -5,10 +5,6 @@
     @include('home.css')
 
     <style>
-        .shop_section {
-            padding: 40px 0;
-        }
-
         .div_deg {
             display: flex;
             justify-content: center;

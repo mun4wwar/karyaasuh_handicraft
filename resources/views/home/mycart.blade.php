@@ -4,282 +4,208 @@
 <head>
     @include('home.css')
     <style type="text/css">
-        /* Container utama */
+        /* Breadcrumb */
+        .breadcrumb {
+            margin: 20px 0;
+            font-size: 14px;
+            padding-top: 125px;
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cart Container */
         .cart-container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding-top: 170px;
+            padding: 20px;
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .cart-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .cart-header h1 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .cart-header p {
-            color: #777;
-            font-size: 16px;
-        }
-
-        /* Table styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 15px;
-            text-align: center;
+        /* Product Grid */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
             border-bottom: 1px solid #ddd;
         }
 
-        th {
-            background-color: #007bff;
-            color: white;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        td img {
+        .cart-item img {
             max-width: 80px;
-            height: auto;
             border-radius: 5px;
         }
 
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            font-size: 14px;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .cart-item-info {
+            flex: 1;
+            margin-left: 20px;
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-danger {
-            background-color: #ff4d4d;
-            color: #fff;
-            border: none;
-            font-size: 14px;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            background-color: #cc0000;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            color: white;
-        }
-
-        .btn-info:hover {
-            background-color: #138496;
-        }
-
-        /* Quantity field */
-        .quantity-field .btn-info {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
+        .cart-item-title {
             font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
             padding: 5px 10px;
-            border-radius: 50%;
-            transition: 0.3s ease;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
         }
 
-        .quantity-field .btn-info:hover {
+        .quantity-btn:hover {
             background-color: #0056b3;
-            transform: scale(1.1);
         }
 
-        /* Order form */
-        .order-form {
-            background-color: white;
+        .save-later,
+        .delete-item {
+            color: #ff4d4d;
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .save-later:hover,
+        .delete-item:hover {
+            color: #cc0000;
+        }
+
+        /* Summary */
+        .cart-summary {
+            margin-top: 30px;
+            background-color: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            /* Tambahkan ini */
         }
 
-        .order-form h2 {
-            font-size: 20px;
-            margin-bottom: 20px;
+        .cart-summary h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-total {
+            font-size: 18px;
+            font-weight: bold;
             color: #333;
         }
 
-        .order-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .order-form input,
-        .order-form textarea {
+        .checkout-btn {
+            display: inline-block;
+            align-items: center;
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .order-form button {
+            padding: 15px;
             background-color: #007bff;
             color: white;
+            font-size: 16px;
+            text-align: center;
             border: none;
-            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            margin: 10px auto;
+            /* Perbaikan di sini */
         }
 
-        .order-form button:hover {
+        .checkout-btn:hover {
             background-color: #0056b3;
         }
-
-        /* Total belanja */
-        .cart-value {
-            text-align: right;
-            font-size: 20px;
-            color: #333;
-            font-weight: bold;
-            margin-top: 30px;
-            margin-bottom: 50px;
-            padding: 15px 20px;
-            background: linear-gradient(to right, #007bff, #00c6ff);
-            border-radius: 8px;
-            color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .cart-value span {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        /* Responsiveness */
-        @media (max-width: 768px) {
-
-            th,
-            td {
-                font-size: 14px;
-            }
-
-            .quantity-field input[type="number"] {
-                width: 40px;
-            }
-        }
     </style>
-
-
 </head>
 
 <body>
     <div class="hero_area">
-
-        <!-- header section strats -->
         @include('home.header')
-        <!-- end header section -->
-
     </div>
+
     <div class="cart-container">
-        <!-- Header -->
-        <div class="cart-header">
-            <h1>Keranjang Belanja</h1>
-            <p>Periksa kembali produk yang ingin Anda beli sebelum melanjutkan ke checkout.</p>
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/shop">Shop</a> > <span>Keranjang Belanja</span>
         </div>
 
-        <!-- Order Form -->
-        <div class="order-form">
-            <h2>Informasi Pengiriman</h2>
-            <form action="{{ url('checkout_page') }}" method="POST">
-                @csrf
-                <label for="name">Nama Penerima</label>
-                <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" readonly>
+        <!-- Cart Items -->
+        <h1>Keranjang Belanja</h1>
+        @if ($cart->isEmpty())
+            <p>Keranjang Anda kosong. <a href="/shop">Belanja sekarang</a></p>
+        @else
+            @foreach ($cart as $item)
+                <div class="cart-item">
+                    <img src="/products/{{ $item->product->image }}" alt="{{ $item->product->title }}">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">{{ $item->product->title }}</div>
+                        <div class="cart-item-price">Rp. {{ number_format($item->product->price, 0, ',', '.') }}</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <form action="{{ url('update_cart_quantity', $item->id) }}" method="POST"
+                            style="display: flex; align-items: center;">
+                            @csrf
+                            <!-- Tombol Kurangi -->
+                            <button type="submit" name="action" value="decrease" class="quantity-btn">-</button>
 
-                <label for="address">Alamat</label>
-                <textarea id="address" name="address" rows="3">{{ Auth::user()->address }}</textarea>
+                            <!-- Input Jumlah Item -->
+                            <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                style="width: 50px; text-align: center; border: 1px solid #ddd; border-radius: 4px;"
+                                readonly>
 
-                <label for="phone">Nomor Telepon</label>
-                <input type="text" id="phone" name="phone" value="{{ Auth::user()->phone }}" readonly>
+                            <!-- Tombol Tambah -->
+                            <button type="submit" name="action" value="increase" class="quantity-btn">+</button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
 
-                <button type="submit" class="btn-primary">Check Out</button>
-            </form>
-        </div>
 
-        <!-- Cart Table -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Gambar</th>
-                    <th>Jumlah</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $value = 0; ?>
-                @foreach ($cart as $cart)
-                    <tr>
-                        <td>{{ $cart->product->title }}</td>
-                        <td>Rp. {{ $cart->product->price }}</td>
-                        <td><img width="150" src="/products/{{ $cart->product->image }}" alt=""></td>
-                        <td>
-                            <form action="{{ url('update_cart_quantity', $cart->id) }}" method="POST"
-                                style="display: inline;">
-                                @csrf
-                                <button type="submit" name="action" value="decrease" class="btn btn-info">-</button>
-                                <input type="number" name="quantity" value="{{ $cart->quantity }}"
-                                    style="width: 50px; text-align: center;">
-                                <button type="submit" name="action" value="increase" class="btn btn-info">+</button>
-                            </form>
-                        </td>
+        @endif
 
-                        <td>
-                            <a class="btn btn-danger"
-                                onclick="confirmDelete('{{ url('delete_cart', $cart->id) }}')">Hapus</a>
-                        </td>
-                    </tr>
-
-                    <?php
-                    $value = $value + $cart->product->price * $cart->quantity;
-                    ?>
-                @endforeach
-            </tbody>
-        </table>
-
-        <!-- Total Belanja -->
-        <div class="cart-value">
-            Total Belanja Anda: <span>Rp {{ number_format($value, 0, ',', '.') }}</span>
+        <!-- Summary -->
+        <div class="cart-summary">
+            <h3>Ringkasan Belanja</h3>
+            <div class="summary-item">
+                @if ($total > 0)
+                    <span>Total Belanja Anda:</span>
+                    <span>Rp. {{ number_format($total, 0, ',', '.') }}</span>
+                @else
+                    Total Belanja Anda: <span>Rp 0</span>
+                @endif
+            </div>
+            <div class="summary-item summary-total">
+                <span>Total</span>
+                <span>Rp. {{ number_format($total, 0, ',', '.') }}</span>
+            </div>
+            <a class="checkout-btn" href="{{ route('checkoutPage') }}">Lanjutkan ke Checkout</a>
         </div>
     </div>
 
@@ -302,14 +228,7 @@
         }
     </script>
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- info section -->
     @include('home.footer')
-
 </body>
 
 </html>

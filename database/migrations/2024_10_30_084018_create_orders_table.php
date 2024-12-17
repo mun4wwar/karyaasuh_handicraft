@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
             $table->timestamps();
         });
-    }
+    }  
 
     /**
      * Reverse the migrations.

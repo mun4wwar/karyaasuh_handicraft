@@ -58,7 +58,7 @@
                         </div>
                         <div class="">
                             <label for="">Jumlah Stok Produk</label>
-                            <input type="number" name="quantity" value="{{ $data->quantity }}">
+                            <input type="number" name="stock" value="{{ $data->stock }}">
                         </div>
                         <div class="">
                             <label for="">Kategori</label>

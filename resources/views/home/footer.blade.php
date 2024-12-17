@@ -7,7 +7,7 @@
         <a href="">
           <i class="fa fa-twitter" aria-hidden="true"></i>
         </a>
-        <a href="">
+        <a href="https://www.instagram.com/aneka_rajutan_lucu/">
           <i class="fa fa-instagram" aria-hidden="true"></i>
         </a>
         <a href="">

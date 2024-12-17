@@ -1,165 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     @include('home.css')
     <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+
         .checkout-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 170px;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .checkout-header {
-            text-align: center;
+        .section-title {
+            font-size: 1.5rem;
             margin-bottom: 20px;
+            font-weight: bold;
         }
 
-        .checkout-header h1 {
-            font-size: 28px;
-            color: #333;
-        }
-
-        .checkout-header p {
-            font-size: 16px;
-            color: #555;
-        }
-
-        .product-list {
+        .cart-summary {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
             margin-bottom: 30px;
         }
 
-        .product-item {
+        .cart-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
 
-        .product-item img {
+        .cart-item img {
             width: 80px;
-            height: auto;
-            border-radius: 5px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
-        .product-info {
+        .cart-item-details {
             flex: 1;
             margin-left: 15px;
         }
 
-        .product-price {
+        .cart-item-price {
             font-weight: bold;
-            color: #333;
         }
 
-        .summary {
-            margin-top: 20px;
-            font-size: 18px;
+        .total {
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #333;
+            margin-top: 10px;
             text-align: right;
         }
 
-        .checkout-form {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .form-section {
+            margin-bottom: 30px;
         }
 
-        .checkout-form h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        .checkout-form label {
-            display: block;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .checkout-form input,
-        .checkout-form textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        .checkout-form button {
+        .checkout-btn {
             background-color: #007bff;
-            color: #fff;
-            border: none;
+            color: white;
             padding: 10px 20px;
+            text-align: center;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
 
-        .checkout-form button:hover {
+        .checkout-btn:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 
 <body>
-    <div class="hero_area">
-        @include('home.header')
-    </div>
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
 
     <div class="checkout-container">
-        <!-- Header -->
-        <div class="checkout-header">
-            <h1>Checkout</h1>
-            <p>Pastikan semua informasi sudah benar sebelum melanjutkan pembayaran.</p>
-        </div>
+        <h1 class="text-center mb-4">Checkout</h1>
 
-        <!-- Product List -->
-        <div class="product-list">
-            @foreach ($cart as $item)
-                <div class="product-item">
-                    <img src="/products/{{ $item->product->image }}" alt="Product Image">
-                    <div class="product-info">
-                        <h4>{{ $item->product->title }}</h4>
-                        <p class="product-price">Rp. {{ number_format($item->product->price, 0, ',', '.') }}</p>
+        <!-- Section: Cart Summary -->
+        <div class="cart-summary">
+            <div class="section-title">Ringkasan Keranjang</div>
+            @foreach ($carts as $cart)
+                <div class="cart-item">
+                    <img src="/products/{{ $cart->product->image ?? 'https://via.placeholder.com/80' }}"
+                        alt="{{ $cart->product->name }}">
+                    <div class="cart-item-details">
+                        <span>{{ $cart->product->name }}</span>
+                        <div>x{{ $cart->quantity }}</div>
                     </div>
-                    <p>Jumlah: {{ $item->quantity }}</p>
+                    <div class="cart-item-price">Rp
+                        {{ number_format($cart->product->price * $cart->quantity, 0, ',', '.') }}</div>
                 </div>
             @endforeach
+            <div class="total">
+                Total: Rp
+                {{ number_format($carts->sum(function ($cart) {return $cart->product->price * $cart->quantity;}),0,',','.') }}
+            </div>
         </div>
 
-        <!-- Summary -->
-        <div class="summary">
-            Total Harga: Rp. {{ number_format($total, 0, ',', '.') }}
-        </div>
-
-        <!-- Checkout Form -->
-        <div class="checkout-form">
-            <h2>Informasi Pengiriman</h2>
-            <form action="{{ url('confirm_order') }}" method="POST">
+        <!-- Section: Shipping Information -->
+        <div class="form-section">
+            <div class="section-title">Alamat Pengiriman</div>
+            <form action="{{ url('processCheckout') }}" method="POST">
                 @csrf
-                <label for="name">Nama Penerima</label>
-                <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" readonly>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nama Penerima</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nama lengkap"
+                        value="{{ Auth::user()->name }}" required>
+                </div>
+                <textarea class="form-control" id="address" name="rec_address" rows="3"
+                    placeholder="Contoh: Jl. Merdeka No.123, Kelurahan ABC, Kota XYZ" required></textarea>
 
-                <label for="address">Alamat Pengiriman</label>
-                <textarea id="address" name="address" rows="3">{{ Auth::user()->address }}</textarea>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Nomor Telepon</label>
+                    <input type="tel" class="form-control" id="phone" name="phone"
+                        placeholder="Nomor telepon aktif" value="{{ Auth::user()->phone }}" pattern="\d{10,15}"
+                        title="Nomor telepon harus berupa angka dan memiliki 10-15 digit" required>
+                </div>
 
-                <label for="phone">Nomor Telepon</label>
-                <input type="text" id="phone" name="phone" value="{{ Auth::user()->phone }}" readonly>
+                <div class="form-section">
+                    <div class="section-title">Metode Pembayaran</div>
+                    <select class="form-select mb-3" name="payment" required>
+                        <option value="" disabled selected>Pilih metode pembayaran</option>
+                        <option value="credit_card">Kartu Kredit</option>
+                        <option value="bank_transfer">Transfer Bank</option>
+                        <option value="cod">Bayar di Tempat (COD)</option>
 
-                <button type="submit">Proses Pembayaran</button>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="checkout-btn">Konfirmasi Pembayaran</button>
+                </div>
             </form>
         </div>
     </div>
 
-    @include('home.footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

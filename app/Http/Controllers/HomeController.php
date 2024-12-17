@@ -19,8 +19,18 @@ class HomeController extends Controller
         $product = Product::all()->count();
         $order = Order::all()->sum('quantity');
         $delivered = Order::where('status', 'delivered')->get()->count();
-        return view('admin.index', compact('user', 'product', 'order', 'delivered'));
+        $data = Order::with('product')->orderByRaw("
+        CASE
+            WHEN status = 'On the way' THEN 1
+            WHEN status = 'Pending' THEN 2
+            ELSE 3
+        END
+    ")->paginate(10);
+
+        return view('admin.index', compact('user', 'product', 'order', 'delivered', 'data'));
     }
+
+
 
     public function home()
     {
@@ -80,10 +90,22 @@ class HomeController extends Controller
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->sum('quantity');
-            $cart = Cart::where('user_id', $userid)->get();
+
+            // Ambil data keranjang dengan relasi produk
+            $cart = Cart::with('product')->where('user_id', $userid)->get();
+
+            $count = $cart->sum('quantity'); // Total kuantitas produk
+            $total = 0;
+
+            // Hitung total berdasarkan setiap item di keranjang
+            foreach ($cart as $item) {
+                $total += $item->quantity * $item->product->price;
+            }
+
+            return view('home.mycart', compact('count', 'cart', 'total'));
         }
-        return view('home.mycart', compact('count', 'cart'));
+
+        return redirect()->route('login');
     }
 
     public function delete_cart($id)
@@ -113,70 +135,122 @@ class HomeController extends Controller
 
     public function updateQuantity(Request $request, $id)
     {
+        // Ambil item keranjang berdasarkan ID
         $cart = Cart::findOrFail($id);
-        $product = Product::find($cart->product_id);
-        if ($cart) {
-            if ($request->action == 'increase' && $cart->quantity < $product->stock) {
-                $cart->quantity += 1;
-            } elseif ($request->action == 'decrease' && $cart->quantity > $product->stock) {
-                $cart->quantity -= 1;
-            }
-            $cart->save();
+
+        // Periksa apakah pengguna yang login sama dengan pemilik keranjang
+        if ($cart->user_id != Auth::id()) {
+            return redirect()->back()->with('error', 'Anda tidak diizinkan mengubah item ini.');
         }
-        return redirect()->back();
+
+        // Tambah atau kurangi jumlah berdasarkan aksi
+        if ($request->action == 'increase') {
+            $cart->quantity += 1;
+        } elseif ($request->action == 'decrease') {
+            $cart->quantity -= 1;
+
+            // Hapus item jika jumlah menjadi nol
+            if ($cart->quantity <= 0) {
+                $cart->delete();
+                return redirect()->back()->with('success', 'Item berhasil dihapus dari keranjang.');
+            }
+        }
+
+        // Simpan perubahan
+        $cart->save();
+
+        return redirect()->back()->with('success', 'Jumlah item berhasil diperbarui.');
     }
 
     public function checkout(Request $request)
     {
-        // $name = $request->name;
-        // $address = $request->address;
-        // $phone = $request->phone;
+        // Validasi data yang diterima dari form
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'rec_address' => 'required|string',
+            'phone' => 'required|regex:/^[0-9]{10,15}$/',
+            'payment' => 'required|in:credit_card,bank_transfer,cod'
+        ]);
 
-        // $userid = Auth::user()->id;
-        // $cart = Cart::where('user_id', $userid)->get();
+        $userid = Auth::user()->id;
+        $cart = Cart::where('user_id', $userid)->get();
 
-        // foreach ($cart as $carts) {
-        //     $product = Product::find($carts->product_id);
+        if ($cart->isEmpty()) {
+            return redirect()->back()->with('error', 'Keranjang belanja kosong.');
+        }
 
-        //     // Validasi stok
-        //     if ($product->stock < $carts->quantity) {
-        //         return redirect()->back()->with('error', "Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
-        //     }
+        foreach ($cart as $carts) {
+            $product = Product::find($carts->product_id);
 
-        //     // Kurangi stok produk
-        //     $product->decrementStock($carts->quantity);
+            if (!$product) {
+                return redirect()->back()->with('error', "Produk dengan ID {$carts->product_id} tidak ditemukan.");
+            }
+            // Validasi stok
+            if ($product->stock < $carts->quantity) {
+                return redirect()->back()->with('error', "Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
+            }
 
-        //     // Simpan order
-        //     $order = new Order;
-        //     $order->name = $name;
-        //     $order->rec_address = $address;
-        //     $order->phone = $phone;
-        //     $order->user_id = $userid;
-        //     $order->product_id = $carts->product_id;
-        //     $order->quantity = $carts->quantity;
-        //     $order->save();
-        // }
+            // Kurangi stok produk
+            $product->decrementStock($carts->quantity);
 
-        // // Hapus semua keranjang pengguna setelah proses order berhasil
-        // Cart::where('user_id', $userid)->delete();
-
-        // toastr()->closeButton()->timeOut(5000)->addSuccess('Barang berhasil diorder.');
-        // return redirect()->back();
-    }
-
-    public function showCheckoutPage()
-    {
-        if (Auth::id()) {
-            $user = Auth::user();
-            $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->sum('quantity');
-            $cart = Cart::where('user_id', $userid)->get();
-            $total = 0;
-            foreach ($cart as $item) {
-                $total += $item->product->price * $item->quantity;
+            // Simpan order
+            $order = new Order;
+            $order->name = $request->name;
+            $order->rec_address = $request->rec_address;
+            $order->phone = $request->phone;
+            $order->user_id = $userid;
+            $order->product_id = $carts->product_id;
+            $order->quantity = $carts->quantity;
+            $order->payment = $request->payment;
+            if (!$order->save()) {
+                return redirect()->back()->with('error', 'Gagal menyimpan pesanan.');
             }
         }
-        return view('home.checkout', compact('count', 'cart', 'total'));
+
+        // Hapus semua item di keranjang setelah proses checkout
+        Cart::where('user_id', $userid)->delete();
+
+        // Redirect ke halaman sesuai metode pembayaran
+        if ($request->payment === 'bank_transfer') {
+            return redirect()->route('bankTransfer');
+        } elseif ($request->payment === 'credit_card') {
+            return redirect()->route('creditCard');
+        } else {
+            return redirect()->route('mycart')->with('success', 'Pesanan berhasil! Barang akan segera diproses.');
+        }
+    }
+
+    public function bankTransferPage()
+    {
+        // Halaman informasi rekening transfer bank
+        return view('payment.bank_transfer', [
+            'bankDetails' => [
+                'bank_name' => 'Bank Mandiri',
+                'account_number' => '1234567890',
+                'account_name' => 'Nama Pemilik Rekening',
+            ],
+        ]);
+    }
+
+    public function creditCardPage()
+    {
+        // Halaman proses pembayaran kartu kredit
+        return view('payment.credit_card');
+    }
+
+    public function showCheckout()
+    {
+        // Ambil keranjang pengguna dari session atau database
+        $userid = Auth::user()->id;
+        $carts = Cart::where('user_id', $userid)->get(); // Mengambil keranjang dari database berdasarkan user yang sedang aktif
+
+        // Validasi apakah keranjang kosong
+        if ($carts->isEmpty()) {
+            return redirect()->route('mycart')->with('error', 'Keranjang Anda kosong.');
+        }
+        $count = $carts->sum('quantity');
+
+        return view('home.checkout', compact('carts', 'count'));
     }
 
     public function myorders()
@@ -191,7 +265,7 @@ class HomeController extends Controller
 
     public function view_shop(Request $id)
     {
-        $data = Product::all();
+        $product = Product::all();
 
         // Periksa apakah pengguna login
         $user = Auth::user();
@@ -202,6 +276,6 @@ class HomeController extends Controller
             $count = Cart::where('user_id', $userid)->sum('quantity');
         }
 
-        return view('home.shop', compact('data', 'count'));
+        return view('home.shop', compact('product', 'count'));
     }
 }
