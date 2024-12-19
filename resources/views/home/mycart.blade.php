@@ -163,7 +163,7 @@
         @else
             @foreach ($cart as $item)
                 <div class="cart-item">
-                    <img src="/products/{{ $item->product->image }}" alt="{{ $item->product->title }}">
+                    <img src="{{ asset('storage/products/' . $item->product->image) }}" alt="{{ $item->product->title }}">
                     <div class="cart-item-info">
                         <div class="cart-item-title">{{ $item->product->title }}</div>
                         <div class="cart-item-price">Rp. {{ number_format($item->product->price, 0, ',', '.') }}</div>

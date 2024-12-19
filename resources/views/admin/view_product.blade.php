@@ -23,8 +23,9 @@
                             <th>Nama Produk</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
+                            <th>Stock</th>
                             <th>Kategori</th>
-                            <th>Jumlah</th>
+                            <th>Bahan Baku</th>
                             <th>Gambar Produk</th>
                             <th>Aksi</th>
                         </tr>
@@ -34,25 +35,28 @@
                             <th>Nama Produk</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
+                            <th>Stock</th>
                             <th>Kategori</th>
-                            <th>Jumlah</th>
+                            <th>Bahan Baku</th>
                             <th>Gambar Produk</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($product as $products)
+                        @foreach ($data as $products)
                             <tr>
                                 <td>{{ $products->title }}</td>
                                 <td>{!! Str::limit($products->description, 50) !!}</td>
                                 <td>{{ $products->price }}</td>
-                                <td>{{ $products->category }}</td>
                                 <td>{{ $products->stock }}</td>
+                                <td>{{ $products->category }}</td>
+                                <td>{{ $products->bahanBaku->nama_bahan ?? 'N/A' }}</td>
                                 <td>
-                                    <img height="120" src="products/{{ $products->image }}" alt="">
+                                    <img height="125" src="{{ asset('storage/products/' . $products->image) }}"
+                                        alt="Product Image" />
                                 </td>
                                 <td><a class="btn btn-danger" href="{{ url('delete_product', $products->id) }}">Hapus</a> <a
-                                        class="btn btn-success" href="{{ url('update_product', $products->id) }}">Edit</a>
+                                        class="btn btn-warning" href="{{ url('edit_product', $products->id) }}">Edit</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -61,7 +65,7 @@
             </div>
         </div>
         <div class="div_deg">
-            {{ $product->onEachSide(1)->links() }}
+            {{ $data->onEachSide(1)->links() }}
         </div>
     </div>
 @endsection

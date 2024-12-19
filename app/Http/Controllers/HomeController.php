@@ -15,22 +15,33 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = User::where('usertype', 'user')->get()->count();
-        $product = Product::all()->count();
-        $order = Order::all()->sum('quantity');
-        $delivered = Order::where('status', 'delivered')->get()->count();
-        $data = Order::with('product')->orderByRaw("
-        CASE
-            WHEN status = 'On the way' THEN 1
-            WHEN status = 'Pending' THEN 2
-            ELSE 3
-        END
-    ")->paginate(10);
+        // Hitung jumlah user dengan usertype 'user'
+        $userCount = User::where('usertype', 'user')->count();
+        $visitorCount = "-";
 
-        return view('admin.index', compact('user', 'product', 'order', 'delivered', 'data'));
+        // Hitung total produk
+        $productCount = Product::count();
+
+        // Hitung total orderan berdasarkan jumlah quantity
+        $orderCount = Order::sum('quantity');
+
+        // Hitung total orderan dengan status 'delivered'
+        $delivered = Order::where('status', 'delivered')->count();
+
+        // Ambil data order dengan relasi product dan urutkan sesuai status
+        $data = Order::with('product')
+            ->orderByRaw("
+            CASE
+                WHEN status = 'On the way' THEN 1
+                WHEN status = 'Pending' THEN 2
+                ELSE 3
+            END
+        ")
+            ->paginate(10);
+
+        // Kirim data ke view
+        return view('admin.index', compact('userCount', 'productCount', 'orderCount', 'delivered', 'data', 'visitorCount'));
     }
-
-
 
     public function home()
     {
@@ -179,44 +190,56 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'Keranjang belanja kosong.');
         }
 
-        foreach ($cart as $carts) {
-            $product = Product::find($carts->product_id);
+        // Mulai transaksi database
+        DB::beginTransaction();
 
-            if (!$product) {
-                return redirect()->back()->with('error', "Produk dengan ID {$carts->product_id} tidak ditemukan.");
+        try {
+            foreach ($cart as $carts) {
+                $product = Product::find($carts->product_id);
+
+                if (!$product) {
+                    throw new \Exception("Produk dengan ID {$carts->product_id} tidak ditemukan.");
+                }
+
+                // Validasi stok
+                if ($product->stock < $carts->quantity) {
+                    throw new \Exception("Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
+                }
+
+                // Kurangi stok produk
+                $product->decrement('stock', $carts->quantity);
+
+                // Simpan order
+                $order = new Order;
+                $order->name = $request->name;
+                $order->rec_address = $request->rec_address;
+                $order->phone = $request->phone;
+                $order->user_id = $userid;
+                $order->product_id = $carts->product_id;
+                $order->quantity = $carts->quantity;
+                $order->payment = $request->payment;
+                $order->total_harga = $product->price * $carts->quantity; // Hitung total harga
+                $order->save();
             }
-            // Validasi stok
-            if ($product->stock < $carts->quantity) {
-                return redirect()->back()->with('error', "Stok produk '{$product->title}' tidak mencukupi. Stok tersedia: {$product->stock}, jumlah pesanan: {$carts->quantity}");
+
+            // Hapus semua item di keranjang setelah proses checkout
+            Cart::where('user_id', $userid)->delete();
+
+            // Commit transaksi
+            DB::commit();
+
+            // Redirect ke halaman sesuai metode pembayaran
+            if ($request->payment === 'bank_transfer') {
+                return redirect()->route('bankTransfer');
+            } elseif ($request->payment === 'credit_card') {
+                return redirect()->route('creditCard');
+            } else {
+                return redirect()->route('mycart')->with('success', 'Pesanan berhasil! Barang akan segera diproses.');
             }
-
-            // Kurangi stok produk
-            $product->decrementStock($carts->quantity);
-
-            // Simpan order
-            $order = new Order;
-            $order->name = $request->name;
-            $order->rec_address = $request->rec_address;
-            $order->phone = $request->phone;
-            $order->user_id = $userid;
-            $order->product_id = $carts->product_id;
-            $order->quantity = $carts->quantity;
-            $order->payment = $request->payment;
-            if (!$order->save()) {
-                return redirect()->back()->with('error', 'Gagal menyimpan pesanan.');
-            }
-        }
-
-        // Hapus semua item di keranjang setelah proses checkout
-        Cart::where('user_id', $userid)->delete();
-
-        // Redirect ke halaman sesuai metode pembayaran
-        if ($request->payment === 'bank_transfer') {
-            return redirect()->route('bankTransfer');
-        } elseif ($request->payment === 'credit_card') {
-            return redirect()->route('creditCard');
-        } else {
-            return redirect()->route('mycart')->with('success', 'Pesanan berhasil! Barang akan segera diproses.');
+        } catch (\Exception $e) {
+            // Rollback jika terjadi error
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -255,13 +278,29 @@ class HomeController extends Controller
 
     public function myorders()
     {
-        $user = Auth::user()->id;
-        $count = Cart::where('user_id', $user)->sum('quantity');
+        $userId = Auth::id();
+        $carts = Cart::where('user_id', $userId)->get(); // Mengambil keranjang dari database berdasarkan user yang sedang aktif
+        $orders = Order::with('product')
+            ->where('user_id', $userId)
+            ->get()
+            ->groupBy(fn($order) => $order->product ? $order->product->title : 'Unknown Product'); // Grup berdasarkan nama produk
 
-        $order = Order::where('user_id', $user)->get();
+        // Pastikan semua pesanan memiliki produk terkait
+        foreach ($orders as $productName => $orderGroup) {
+            foreach ($orderGroup as $order) {
+                if (!$order->product) {
+                    dd("Order ID {$order->id} tidak memiliki produk terkait.");
+                }
+            }
+        }
 
-        return view('home.order', compact('count', 'order'));
+        $count = $carts->sum('quantity');
+
+        return view('home.order', compact('orders', 'carts', 'count'));
     }
+
+
+
 
     public function view_shop(Request $id)
     {

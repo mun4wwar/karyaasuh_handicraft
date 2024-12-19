@@ -32,6 +32,7 @@
             </tfoot>
             <tbody>
                 @foreach ($data as $order)
+
                     <tr>
                         <td>{{ $order->name }}</td>
                         <td>{{ $order->rec_address }}</td>
@@ -39,8 +40,8 @@
                         <td>{{ $order->product->title }}</td>
                         <td>Rp. {{ $order->product->price }}</td>
                         <td>
-                            <img width="150" src="{{ asset('products/' . $order->product->image) }}"
-                                alt="Product Image">
+                            <img width="150" src="{{ asset('storage/products/' . $order->product->image) }}"
+                                    alt="Product Image">
                         </td>
                         <td>{{ $order->quantity }}</td>
                         <td>

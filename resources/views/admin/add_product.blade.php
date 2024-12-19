@@ -1,107 +1,90 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.admin')
 
-<head>
-    {{-- Dashboard --}}
-    @include('admin.css')
+@section('content')
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-3">Tambah Produk</h3>
+                    </div>
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
-    <style type="text/css">
-        .div_deg {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 60px;
-        }
+                        <form action="{{ url('upload_product') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <!-- Nama Produk dan Deskripsi Produk -->
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Nama Produk</label>
+                                <input class="form-control" id="title" name="title" type="text"
+                                    placeholder="Masukkan Nama produk" required />
+                            </div>
 
-        h1 {
-            color: white;
-        }
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Deskripsi Produk</label>
+                                <textarea class="form-control" id="description" name="description" rows="4"
+                                    placeholder="Masukkan Deskripsi produk" required></textarea>
+                            </div>
 
-        label {
-            display: inline-block;
-            width: 200px;
-            font-size: 18px !important;
-            color: white !important;
-        }
+                            <div class="row mb-3">
+                                <!-- Harga Produk -->
+                                <!-- Jumlah Stok -->
+                                <div class="col-md-6">
+                                    <label for="price" class="form-label">Harga Produk</label>
+                                    <input class="form-control" id="price" name="price" type="number"
+                                        placeholder="Masukkan harga produk" required />
+                                </div>
 
-        input[type='text'] {
-            width: 350px;
-            height: 50px;
-        }
+                                <div class="col-md-6">
+                                    <label for="stock" class="form-label">Jumlah Stok Produk</label>
+                                    <input class="form-control" id="stock" name="stock" type="number"
+                                        placeholder="Masukkan stok produk" required />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="category" class="form-label">Kategori Produk</label>
+                                    <select class="form-select" id="category" name="category" required>
+                                        <option value="" hidden>Pilih kategori produk</option>
+                                        @foreach ($category as $category)
+                                            <option value="{{ $category->category_name }}">{{ $category->category_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Input Bahan Baku -->
+                                <div class=" col md-6">
+                                    <label for="bahan_baku" class="form-label">Bahan Baku</label>
+                                    <select class="form-select" id="bahan_baku" name="bahan_baku_id" required>
+                                        <option value="" hidden>Pilih bahan baku</option>
+                                        @foreach ($bahan_baku as $bahan)
+                                            <option value="{{ $bahan->id_bahanbaku }}">{{ $bahan->nama_bahan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Gambar Produk -->
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Gambar Produk</label>
+                                <input class="form-control" id="image" name="image" type="file" required />
+                            </div>
 
-        textarea {
-            width: 450px;
-            height: 80px;
-        }
-
-        .input_deg {
-            padding: 15px;
-        }
-    </style>
-</head>
-
-<body>
-    {{-- Dashboard Header --}}
-    @include('admin.header')
-
-    {{-- Dashboard Sidebar --}}
-    @include('admin.sidebar')
-
-    <div class="page-content">
-        <div class="page-header">
-            <div class="container-fluid">
-                <h1>Tambah Produk</h1>
-                <div class="div_deg">
-                    <form action="{{ url('upload_product') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="input_deg">
-                            <label for="">Nama Produk</label>
-                            <input type="text" name="title" required>
-                        </div>
-                        <div class="input_deg">
-                            <label for="">Deskripsi Produk</label>
-                            <textarea type="text" name="description" required></textarea>
-                        </div>
-                        <div class="input_deg">
-                            <label for="">Harga Produk</label>
-                            <input type="text" name="price" required>
-                        </div>
-                        <div class="input_deg">
-                            <label for="">Jumlah Stok Produk</label>
-                            <input type="number" name="stock" required>
-                        </div>
-                        <div class="input_deg">
-                            <label for="">Kategori Produk</label>
-                            <select name="category" required>
-                                <option value="" hidden>Pilih kategori produk</option>
-                                @foreach ($category as $category)
-                                    <option value="{{ $category->category_name }}">{{ $category->category_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="input_deg">
-                            <label for="">Gambar Produk</label>
-                            <input type="file" name="image">
-                        </div>
-                        <div class="input_deg">
-                            <input class="btn btn-success" type="submit" value="Tambah Produk" required>
-                        </div>
-                    </form>
+                            <!-- Tombol Submit -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">Tambah Produk</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- JavaScript files-->
-    <script src="{{ asset('/admincss/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('/admincss/vendor/popper.js/umd/popper.min.js') }}"></script>
-    <script src="{{ asset('/admincss/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/admincss/vendor/jquery.cookie/jquery.cookie.js') }}"></script>
-    <script src="{{ asset('/admincss/vendor/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('/admincss/vendor/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('/admincss/js/charts-home.js') }}"></script>
-    <script src="{{ asset('/admincss/js/front.js') }}"></script>
-</body>
-
-</html>
+@endsection

@@ -69,8 +69,8 @@
                 <div class="collapse" id="collapseBahan" aria-labelledby="headingOne"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="{{ url('view_bahan') }}">Daftar Bahan Baku</a>
-                        <a class="nav-link" href="{{ url('add_bahan') }}">Tambah Bahan Baku</a>
+                        <a class="nav-link" href="{{ route('bahan.index') }}">Daftar Bahan Baku</a>
+                        <a class="nav-link" href="{{ route('bahan.create') }}">Tambah Bahan Baku</a>
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

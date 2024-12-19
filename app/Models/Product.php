@@ -15,13 +15,16 @@ class Product extends Model
         'image',
         'category',
         'stock',
+        'price', // Tambahkan atribut 'price' jika belum ada
     ];
 
-    public function supplier()
+    // Relasi ke Order (satu produk dapat memiliki banyak order)
+    public function orders()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->hasMany(Order::class, 'product_id');
     }
 
+    // Method untuk mengurangi stok
     public function decrementStock($quantity)
     {
         if ($this->stock < $quantity) {
@@ -30,5 +33,10 @@ class Product extends Model
 
         $this->stock -= $quantity;
         $this->save();
+    }
+    // Di dalam Product.php (App\Models\Product)
+    public function bahanBaku()
+    {
+        return $this->belongsTo(Bahanbaku::class, 'bahan_baku_id');
     }
 }

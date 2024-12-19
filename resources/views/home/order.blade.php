@@ -38,14 +38,12 @@
             padding: 10px;
         }
     </style>
-
 </head>
 
 <body>
     <div class="hero_area">
-        <!-- header section strats -->
         @include('home.header')
-        <!-- end header section -->
+
         <h1 class="text-center mt-5">My Orders</h1>
         <div class="div_center">
             <table>
@@ -57,20 +55,38 @@
                     <th>Image</th>
                 </tr>
 
-                @foreach ($order as $order)
+                @foreach ($orders as $productName => $productOrders)
                     <tr>
-                        <td>{{ $order->product->title }}</td>
-                        <td>{{ $order->product->price }}</td>
-                        <td>{{ $order->status }}</td>
-                        <td>{{ $order->quantity }}</td>
-                        <td>
-                            <img height="150" src="products/{{ $order->product->image }}" alt="">
+                        <td rowspan="{{ count($productOrders) }}">{{ $productName }}</td>
+                        <td rowspan="{{ count($productOrders) }}">
+                            {{ $productOrders->first()->product->price }}
+                        </td>
+                        <td>{{ $productOrders->first()->status }}</td>
+                        <td>{{ $productOrders->first()->quantity }}</td>
+                        <td rowspan="{{ count($productOrders) }}">
+                            @if ($productOrders->first()->product && $productOrders->first()->product->image)
+                                <img height="150"
+                                    src="{{ asset('storage/products/' . $productOrders->first()->product->image) }}"
+                                    alt="">
+                            @else
+                                <span>Image not available</span>
+                            @endif
                         </td>
                     </tr>
+                    @foreach ($productOrders->slice(1) as $order)
+                        <tr>
+                            <td>{{ $order->status }}</td>
+                            <td>{{ $order->quantity }}</td>
+                        </tr>
+                    @endforeach
                 @endforeach
+
+
+
 
             </table>
         </div>
+
     </div>
 
     @include('home.footer')

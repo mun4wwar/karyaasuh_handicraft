@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BahanBakuController;
 
 Route::get('/', [HomeController::class, 'home']);
 
@@ -16,34 +17,36 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 //Admin
-Route::get('admin/dashboard',[HomeController::class, 'index'])->middleware(['auth','admin']);
-Route::get('view_category',[AdminController::class, 'view_category'])->middleware(['auth','admin']);
-Route::post('add_category',[AdminController::class, 'add_category'])->middleware(['auth','admin']);
-Route::get('delete_category/{id}',[AdminController::class, 'delete_category'])->middleware(['auth','admin']);
-Route::get('edit_category/{id}',[AdminController::class, 'edit_category'])->middleware(['auth','admin']);
-Route::post('update_category/{id}',[AdminController::class, 'update_category'])->middleware(['auth','admin']);
-Route::get('add_product',[AdminController::class, 'add_product'])->middleware(['auth','admin']);
-Route::post('upload_product',[AdminController::class, 'upload_product'])->middleware(['auth','admin']);
-Route::get('view_product',[AdminController::class, 'view_product'])->middleware(['auth','admin']);
-Route::get('delete_product/{id}',[AdminController::class, 'delete_product'])->middleware(['auth','admin']);
-Route::get('update_product/{id}',[AdminController::class, 'update_product'])->middleware(['auth','admin']);
-Route::post('edit_product/{id}',[AdminController::class, 'edit_product'])->middleware(['auth','admin']);
-Route::get('product_search',[AdminController::class, 'product_search'])->middleware(['auth','admin']);
+Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin']);
+Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin']);
+Route::post('add_category', [AdminController::class, 'add_category'])->middleware(['auth', 'admin']);
+Route::get('delete_category/{id}', [AdminController::class, 'delete_category'])->middleware(['auth', 'admin']);
+Route::get('edit_category/{id}', [AdminController::class, 'edit_category'])->middleware(['auth', 'admin']);
+Route::post('update_category/{id}', [AdminController::class, 'update_category'])->middleware(['auth', 'admin']);
+Route::get('add_product', [AdminController::class, 'add_product'])->middleware(['auth', 'admin']);
+Route::post('upload_product', [AdminController::class, 'upload_product'])->middleware(['auth', 'admin']);
+Route::get('view_product', [AdminController::class, 'view_product'])->middleware(['auth', 'admin']);
+Route::get('delete_product/{id}', [AdminController::class, 'delete_product'])->middleware(['auth', 'admin']);
+Route::get('update_product/{id}', [AdminController::class, 'update_product'])->middleware(['auth', 'admin']);
+Route::post('edit_product/{id}', [AdminController::class, 'edit_product'])->middleware(['auth', 'admin']);
+Route::get('product_search', [AdminController::class, 'product_search'])->middleware(['auth', 'admin']);
 Route::get('view_orders', [AdminController::class, 'view_order'])->middleware(['auth', 'admin']);
 Route::get('on_the_way/{id}', [AdminController::class, 'on_the_way'])->middleware(['auth', 'admin']);
 Route::get('delivered/{id}', [AdminController::class, 'delivered'])->middleware(['auth', 'admin']);
 Route::get('print_pdf/{id}', [AdminController::class, 'print_pdf'])->middleware(['auth', 'admin']);
 Route::get('laporan_penjualan', [AdminController::class, 'laporan_penjualan'])->middleware(['auth', 'admin']);
 
-Route::get('add_bahan',[AdminController::class, 'add_bahan'])->middleware(['auth','admin']);
-Route::post('upload_bahan',[AdminController::class, 'upload_bahan'])->middleware(['auth','admin']);
-Route::get('view_bahan',[AdminController::class, 'view_bahan'])->middleware(['auth','admin']);
-Route::get('delete_bahan/{id}',[AdminController::class, 'delete_bahan'])->middleware(['auth','admin']);
-Route::get('update_bahan/{id}',[AdminController::class, 'update_bahan'])->middleware(['auth','admin']);
-Route::post('edit_bahan/{id}',[AdminController::class, 'edit_bahan'])->middleware(['auth','admin']);
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('bahan', [BahanBakuController::class, 'index'])->name('bahan.index');
+    Route::get('bahan/create', [BahanBakuController::class, 'create'])->name('bahan.create');
+    Route::post('bahan', [BahanBakuController::class, 'store'])->name('bahan.store');
+    Route::get('bahan/{id_bahanbaku}/edit', [BahanBakuController::class, 'edit'])->name('bahan.edit');
+    Route::put('bahan/{id_bahanbaku}', [BahanBakuController::class, 'update'])->name('bahan.update');
+    Route::delete('bahan/{id_bahanbaku}', [BahanBakuController::class, 'destroy'])->name('bahan.destroy');
+});
 
 
 //Supplier
@@ -52,17 +55,17 @@ Route::get('add_supplier', [SupplierController::class, 'add_supplier'])->middlew
 Route::post('upload_supplier', [SupplierController::class, 'upload_supplier'])->middleware(['auth', 'admin']);
 Route::get('edit_supplier/{id}', [SupplierController::class, 'edit_supplier'])->middleware(['auth', 'admin']);
 Route::post('update_supplier/{id}', [SupplierController::class, 'update_supplier'])->middleware(['auth', 'admin']);
-Route::get('delete_supplier/{id}',[SupplierController::class, 'delete_supplier'])->middleware(['auth','admin']);
+Route::get('delete_supplier/{id}', [SupplierController::class, 'delete_supplier'])->middleware(['auth', 'admin']);
 
 
 // User
-Route::get('product_details/{id}',[HomeController::class,'product_details']);
-Route::get('add_cart/{id}',[HomeController::class,'add_cart'])->middleware(['auth', 'verified']);
-Route::get('/mycart',[HomeController::class,'mycart'])->name('mycart')->middleware(['auth', 'verified']);
+Route::get('product_details/{id}', [HomeController::class, 'product_details']);
+Route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->middleware(['auth', 'verified']);
+Route::get('/mycart', [HomeController::class, 'mycart'])->name('mycart')->middleware(['auth', 'verified']);
 Route::get('delete_cart/{id}', [HomeController::class, 'delete_cart'])->middleware(['auth', 'verified']);
 Route::post('/update_cart_quantity/{id}', [HomeController::class, 'updateQuantity'])->middleware(['auth', 'verified']);
-Route::get('myorders',[HomeController::class,'myorders'])->middleware(['auth', 'verified']);
-Route::get('shop',[HomeController::class,'view_shop'])->name('shop');
+Route::get('myorders', [HomeController::class, 'myorders'])->middleware(['auth', 'verified']);
+Route::get('shop', [HomeController::class, 'view_shop'])->name('shop');
 Route::get('checkoutPage', [HomeController::class, 'showCheckout'])->name('checkoutPage')->middleware(['auth', 'verified']);
 // Memproses checkout
 Route::middleware('auth')->group(function () {

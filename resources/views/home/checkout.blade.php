@@ -98,8 +98,9 @@
             <div class="section-title">Ringkasan Keranjang</div>
             @foreach ($carts as $cart)
                 <div class="cart-item">
-                    <img src="/products/{{ $cart->product->image ?? 'https://via.placeholder.com/80' }}"
+                    <img src="{{ asset('storage/products/' . $cart->product->image ?? 'https://via.placeholder.com/80') }}"
                         alt="{{ $cart->product->name }}">
+
                     <div class="cart-item-details">
                         <span>{{ $cart->product->name }}</span>
                         <div>x{{ $cart->quantity }}</div>
