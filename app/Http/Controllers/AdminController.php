@@ -49,7 +49,7 @@ class AdminController extends Controller
     }
     public function add_product()
     {
-        $bahan_baku = BahanBaku::all(); // Mengambil semua bahan baku
+        $bahan_baku = Bahanbaku::all(); // Mengambil semua bahan baku
         $category = Category::all(); // Mengambil semua kategori produk (jika diperlukan)
 
         return view('admin.add_product', compact('bahan_baku', 'category'));
@@ -62,7 +62,7 @@ class AdminController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category' => 'required|string',
-            'bahan_baku_id' => 'required|exists:bahanBaku,id_bahanbaku', // Validasi bahan baku
+            'bahan_baku_id' => 'required|exists:materials,id_bahanbaku', // Validasi bahan baku
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:7168', // 7 MB max
         ]);
 
@@ -93,7 +93,7 @@ class AdminController extends Controller
 
     public function view_product()
     {
-        $data = Product::with('bahanBaku')->paginate(3);  // Memuat relasi material
+        $data = Product::with('materials')->paginate(3);  // Memuat relasi material
         return view('admin.view_product', compact('data'));
     }
 
@@ -123,7 +123,7 @@ class AdminController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:7168',
         ]);
 
         // Cari data produk berdasarkan ID
@@ -144,16 +144,18 @@ class AdminController extends Controller
             }
             // Simpan gambar baru
             $imagename = time() . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('products'), $imagename);
+            $path = $request->image->storeAs('products', $imagename, 'public');
             $data->image = $imagename;
         }
 
         // Simpan perubahan
-        $data->save();
-
-        // Pesan sukses
-        toastr()->closeButton()->timeOut(5000)->success('Produk berhasil diupdate.');
-        return redirect('/view_product');
+        try {
+            $data->save();
+            toastr()->closeButton()->timeOut(5000)->success('Produk berhasil diupdate.');
+            return redirect('/view_product');
+        } catch (\Exception $e) {
+            return back()->withError('Gagal memperbarui produk. Coba lagi.');
+        }
     }
 
     public function product_search(Request $request)

@@ -24,12 +24,11 @@
                     <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
                 </li>
             </ul>
-            
 
             <div class="user_option">
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('myorders') }}" class="btn btn-outline-warning">
+                        <a href="{{ route('orders_page') }}" class="btn btn-outline-warning">
                             My Orders
                         </a>
                         <a href="{{ url('mycart') }}" class="btn btn-outline-warning">
@@ -61,10 +60,10 @@
     </nav>
 </header>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const navbar = document.querySelector(".custom_nav-container");
 
-        window.addEventListener("scroll", function () {
+        window.addEventListener("scroll", function() {
             if (window.scrollY > 50) { // Ketika user scroll lebih dari 50px
                 navbar.classList.add("scrolled");
             } else {
@@ -73,4 +72,3 @@
         });
     });
 </script>
-

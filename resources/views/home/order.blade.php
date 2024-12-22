@@ -8,88 +8,108 @@
     <title>My Orders Page</title>
 
     @include('home.css')
-
-    <style type="text/css">
-        .div_center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-top: 80px;
-            margin: 50px;
-        }
-
-        table {
-            border: 2px solid black;
-            text-align: center;
-            width: 800px;
-        }
-
-        th {
-            border: 2px solid skyblue;
-            background-color: black;
-            color: white;
-            font-size: 19px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        td {
-            border: 2px solid skyblue;
-            padding: 10px;
-        }
-    </style>
 </head>
 
 <body>
     <div class="hero_area">
         @include('home.header')
-
-        <h1 class="text-center mt-5">My Orders</h1>
-        <div class="div_center">
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Delivery Status</th>
-                    <th>Quantity</th>
-                    <th>Image</th>
-                </tr>
-
-                @foreach ($orders as $productName => $productOrders)
-                    <tr>
-                        <td rowspan="{{ count($productOrders) }}">{{ $productName }}</td>
-                        <td rowspan="{{ count($productOrders) }}">
-                            {{ $productOrders->first()->product->price }}
-                        </td>
-                        <td>{{ $productOrders->first()->status }}</td>
-                        <td>{{ $productOrders->first()->quantity }}</td>
-                        <td rowspan="{{ count($productOrders) }}">
-                            @if ($productOrders->first()->product && $productOrders->first()->product->image)
-                                <img height="150"
-                                    src="{{ asset('storage/products/' . $productOrders->first()->product->image) }}"
-                                    alt="">
-                            @else
-                                <span>Image not available</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @foreach ($productOrders->slice(1) as $order)
-                        <tr>
-                            <td>{{ $order->status }}</td>
-                            <td>{{ $order->quantity }}</td>
-                        </tr>
-                    @endforeach
-                @endforeach
-
-
-
-
-            </table>
+        <!-- Page Title -->
+        <div class="text-center my-5">
+            <h1>My Orders</h1>
+            <p class="text-muted">Check the status and details of your recent orders below.</p>
         </div>
 
-    </div>
+        <!-- Orders Table -->
+        <div class="table-container">
+            <table class="table table-bordered text-center align-middle">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Products</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Images</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <!-- Order ID -->
+                            <td class="order-id">{{ $order->id }}</td>
 
+                            <!-- Products -->
+                            <td>
+                                <ul class="list-unstyled">
+                                    @foreach ($order->products as $product)
+                                        <li>{{ $product->title }} X {{ $product->pivot->quantity }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+
+                            <!-- Total Price -->
+                            <td>
+                                @php
+                                    $totalPrice = $order->products->sum(function ($product) {
+                                        return $product->price * $product->pivot->quantity;
+                                    });
+                                @endphp
+                                <span class="text-success fw-bold">Rp
+                                    {{ number_format($totalPrice, 0, ',', '.') }}</span>
+                            </td>
+
+                            <!-- Status -->
+                            <td>
+                                <span
+                                    class="badge 
+                            @if ($order->status == 'Pending') bg-warning 
+                            @elseif ($order->status == 'On the way') bg-info 
+                            @elseif ($order->status == 'Delivered') bg-success 
+                            @else bg-secondary @endif">
+                                    {{ $order->status }}
+                                </span>
+                            </td>
+
+                            <!-- Images -->
+                            <td class="product-images">
+                                @foreach ($order->products as $product)
+                                    <img src="{{ $product->image ? asset('storage/products/' . $product->image) : asset('images/placeholder.png') }}"
+                                        alt="Product Image">
+                                @endforeach
+                            </td>
+                            <td>
+                                @if ($order->status === 'Pending')
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                    <form action="{{ route('transaction.upload') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                        <label for="payment_proof">Upload Bukti Pembayaran:</label>
+                                        <input type="file" id="payment_proof" name="payment_proof" required>
+                                        <button type="submit" class="btn btn-primary mt-3">Upload</button>
+                                    </form>
+                                @else
+                                    <span class="text-muted">...</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
     @include('home.footer')
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

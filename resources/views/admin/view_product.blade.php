@@ -50,7 +50,7 @@
                                 <td>{{ $products->price }}</td>
                                 <td>{{ $products->stock }}</td>
                                 <td>{{ $products->category }}</td>
-                                <td>{{ $products->bahanBaku->nama_bahan ?? 'N/A' }}</td>
+                                <td>{{ $products->materials->nama_bahan ?? 'N/A' }}</td>
                                 <td>
                                     <img height="125" src="{{ asset('storage/products/' . $products->image) }}"
                                         alt="Product Image" />

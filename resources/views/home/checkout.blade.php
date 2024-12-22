@@ -140,13 +140,22 @@
                     <select class="form-select mb-3" name="payment" required>
                         <option value="" disabled selected>Pilih metode pembayaran</option>
                         <option value="credit_card">Kartu Kredit</option>
-                        <option value="bank_transfer">Transfer Bank</option>
+                        <option value="transfer_bank">Transfer Bank</option>
                         <option value="cod">Bayar di Tempat (COD)</option>
 
                     </select>
                 </div>
 
                 <div class="d-grid gap-2">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <button type="submit" class="checkout-btn">Konfirmasi Pembayaran</button>
                 </div>
             </form>

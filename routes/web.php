@@ -6,6 +6,11 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BahanBakuController;
+use App\Http\Controllers\TransactionController;
+
+
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
 
 Route::get('/', [HomeController::class, 'home']);
 
@@ -30,8 +35,8 @@ Route::get('add_product', [AdminController::class, 'add_product'])->middleware([
 Route::post('upload_product', [AdminController::class, 'upload_product'])->middleware(['auth', 'admin']);
 Route::get('view_product', [AdminController::class, 'view_product'])->middleware(['auth', 'admin']);
 Route::get('delete_product/{id}', [AdminController::class, 'delete_product'])->middleware(['auth', 'admin']);
-Route::get('update_product/{id}', [AdminController::class, 'update_product'])->middleware(['auth', 'admin']);
-Route::post('edit_product/{id}', [AdminController::class, 'edit_product'])->middleware(['auth', 'admin']);
+Route::put('update_product/{id}', [AdminController::class, 'update_product'])->middleware(['auth', 'admin']);
+Route::get('edit_product/{id}', [AdminController::class, 'edit_product'])->middleware(['auth', 'admin']);
 Route::get('product_search', [AdminController::class, 'product_search'])->middleware(['auth', 'admin']);
 Route::get('view_orders', [AdminController::class, 'view_order'])->middleware(['auth', 'admin']);
 Route::get('on_the_way/{id}', [AdminController::class, 'on_the_way'])->middleware(['auth', 'admin']);
@@ -64,12 +69,16 @@ Route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->middleware(['a
 Route::get('/mycart', [HomeController::class, 'mycart'])->name('mycart')->middleware(['auth', 'verified']);
 Route::get('delete_cart/{id}', [HomeController::class, 'delete_cart'])->middleware(['auth', 'verified']);
 Route::post('/update_cart_quantity/{id}', [HomeController::class, 'updateQuantity'])->middleware(['auth', 'verified']);
-Route::get('myorders', [HomeController::class, 'myorders'])->middleware(['auth', 'verified']);
+Route::get('orders', [HomeController::class, 'myorders'])->name('orders_page')->middleware(['auth', 'verified']);
 Route::get('shop', [HomeController::class, 'view_shop'])->name('shop');
 Route::get('checkoutPage', [HomeController::class, 'showCheckout'])->name('checkoutPage')->middleware(['auth', 'verified']);
 // Memproses checkout
 Route::middleware('auth')->group(function () {
-    Route::post('/processCheckout', [HomeController::class, 'checkout'])->name('processCheckout')->middleware(['auth', 'verified']);;
-    Route::get('/payment/bank-transfer', [HomeController::class, 'bankTransferPage'])->name('bankTransfer')->middleware(['auth', 'verified']);;
-    Route::get('/payment/credit-card', [HomeController::class, 'creditCardPage'])->name('creditCard')->middleware(['auth', 'verified']);;
+    Route::post('/processCheckout', [HomeController::class, 'checkout'])->name('processCheckout')->middleware(['auth', 'verified']);
+    Route::get('/payment/bank-transfer', [HomeController::class, 'bankTransferPage'])->name('bankTransfer')->middleware(['auth', 'verified']);
+    Route::get('/payment/credit-card', [HomeController::class, 'creditCardPage'])->name('creditCard')->middleware(['auth', 'verified']);
 });
+
+// proses pembayaran User
+Route::post('/transaction/upload', [TransactionController::class, 'upload'])->name('transaction.upload')->middleware(['auth', 'verified']);
+

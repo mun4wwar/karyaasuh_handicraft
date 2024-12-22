@@ -21,7 +21,9 @@ class Product extends Model
     // Relasi ke Order (satu produk dapat memiliki banyak order)
     public function orders()
     {
-        return $this->hasMany(Order::class, 'product_id');
+        return $this->belongsToMany(Order::class, 'order_products')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 
     // Method untuk mengurangi stok
@@ -35,7 +37,7 @@ class Product extends Model
         $this->save();
     }
     // Di dalam Product.php (App\Models\Product)
-    public function bahanBaku()
+    public function materials()
     {
         return $this->belongsTo(Bahanbaku::class, 'bahan_baku_id');
     }

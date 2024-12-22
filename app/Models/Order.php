@@ -14,12 +14,10 @@ class Order extends Model
         'rec_address',
         'phone',
         'user_id',
-        'product_id',
-        'quantity',
         'payment',
         'status',
         'total_harga',
-    ];
+    ];    
 
     // Relasi ke User
     public function user()
@@ -28,8 +26,15 @@ class Order extends Model
     }
 
     // Relasi ke Product (satu produk per order)
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsToMany(Product::class, 'order_products')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
+    public function transaction()
+{
+    return $this->hasOne(Transaction::class);
+}
+
 }
