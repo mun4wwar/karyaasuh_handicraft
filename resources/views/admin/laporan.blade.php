@@ -22,7 +22,7 @@
 </head>
 <body>
     <h1>Laporan Penjualan</h1>
-    <h2>Karya Asuh HandiCraft</h2>
+    <h2>Sonia Handcraft</h2>
     <table>
         <thead>
             <tr>

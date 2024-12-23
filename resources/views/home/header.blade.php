@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg custom_nav-container">
         <a class="navbar-brand" href="{{ url('/') }}">
             <span>
-                Karya Asuh Handicrafts
+                Sonia Handcraft
             </span>
         </a>
 
@@ -14,8 +14,8 @@
                 <li class="nav-item {{ Request::is('shop') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/shop') }}">Shop</a>
                 </li>
-                <li class="nav-item {{ Request::is('why') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/why') }}">Why Us</a>
+                <li class="nav-item {{ Request::is('tentang-kami') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/tentang-kami') }}">Why Us</a>
                 </li>
                 <li class="nav-item {{ Request::is('testimonial') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/testimonial') }}">Testimonial</a>

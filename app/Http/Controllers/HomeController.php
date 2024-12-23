@@ -30,7 +30,7 @@ class HomeController extends Controller
         $delivered = Order::where('status', 'delivered')->count();
 
         // Ambil data order dengan relasi product dan urutkan sesuai status
-        $data = Order::with('product')
+        $data = Order::with('products')
             ->orderByRaw("
             CASE
                 WHEN status = 'On the way' THEN 1
@@ -46,7 +46,7 @@ class HomeController extends Controller
 
     public function home()
     {
-        $product = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->take(5)->get(); // Mengambil 5 produk terbaru
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
@@ -54,11 +54,11 @@ class HomeController extends Controller
         } else {
             $count = ' ';
         }
-        return view('layouts.index', compact('product', 'count'));
+        return view('layouts.index', compact('products', 'count'));
     }
     public function login_home()
     {
-        $product = Product::all();
+        $products = Product::all();
         if (Auth::id()) {
             $user = Auth::user();
             $userid = $user->id;
@@ -66,7 +66,7 @@ class HomeController extends Controller
         } else {
             $count = ' ';
         }
-        return view('layouts.index', compact('product', 'count'));
+        return view('layouts.index', compact('products', 'count'));
     }
 
     public function product_details($id)

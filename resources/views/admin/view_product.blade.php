@@ -30,18 +30,6 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Nama Produk</th>
-                            <th>Deskripsi</th>
-                            <th>Harga</th>
-                            <th>Stock</th>
-                            <th>Kategori</th>
-                            <th>Bahan Baku</th>
-                            <th>Gambar Produk</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         @foreach ($data as $products)
                             <tr>

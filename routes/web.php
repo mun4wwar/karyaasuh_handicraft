@@ -82,3 +82,7 @@ Route::middleware('auth')->group(function () {
 // proses pembayaran User
 Route::post('/transaction/upload', [TransactionController::class, 'upload'])->name('transaction.upload')->middleware(['auth', 'verified']);
 
+// Header navigation
+Route::get('/tentang-kami', function () {
+    return view('home.about');
+});

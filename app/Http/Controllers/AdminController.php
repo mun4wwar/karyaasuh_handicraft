@@ -93,7 +93,7 @@ class AdminController extends Controller
 
     public function view_product()
     {
-        $data = Product::with('materials')->paginate(3);  // Memuat relasi material
+        $data = Product::with('materials')->paginate(5);  // Memuat relasi material
         return view('admin.view_product', compact('data'));
     }
 

@@ -7,11 +7,10 @@
                         <div class="detail-box">
                             <h1>
                                 Selamat Datang di <br>
-                                Karya Asuh Handicrafts
+                                Sonia Handcraft
                             </h1>
                             <p>
-                                Kami menyediakan beragam kerajinan tangan yang unik dan menarik dari hasil
-                                pemberdayaan panti asuhan.
+                                Kami menyediakan beragam kerajinan tangan yang unik dan menarik.
                             </p>
                             <p style="font-style: italic">
                                 "Dari Tangan Kami untuk Dunia Anda".

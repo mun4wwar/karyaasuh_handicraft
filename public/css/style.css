@@ -1,9 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("font-awesome.min.css");
+
+/* Ensure Footer Sticks to Bottom */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     font-family: "poppins", sans-serif;
     color: #101010;
     background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
 }
 
 .layout_padding {
@@ -982,22 +993,59 @@ a:focus {
     background-color: #0056b3;
 }
 
-.why_section .box {
+/* About Section */
+.about_section {
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+.about_section .heading_container {
+    margin-bottom: 40px;
+}
+
+.about_section h2 {
+    font-size: 2.5rem;
+    color: #5a67d8;
+    margin-bottom: 20px;
+}
+
+.about_section .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.about_section .img-box {
     text-align: center;
-    margin-top: 45px;
-    background-color: #f9f8f7;
-    padding: 25px;
-    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
-.why_section .box .img-box {
-    margin-bottom: 15px;
+.about_section .img-box img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.why_section .box .img-box svg {
-    width: 55px;
-    height: auto;
-    fill: #320b57;
+.about_section .detail-box {
+    padding: 20px;
+}
+
+.about_section .detail-box p {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about_section .row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about_section .detail-box {
+        padding: 0;
+    }
 }
 
 .gift_section {
@@ -1224,31 +1272,26 @@ a:focus {
     right: 0;
 }
 
-/* info section */
+/* Footer Section */
 .info_section {
     position: relative;
     background-color: #2d2d2d;
     color: #ffffff;
-    margin: 0 45px 45px;
+    margin: 0; /* Hilangkan margin agar melebar penuh */
+    padding: 45px 20px; /* Tambahkan padding untuk ruang */
+    display: flex;
+    flex-direction: column;
 }
 
 .info_section .social_container {
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
+    display: flex;
     justify-content: center;
-    margin-top: 25px;
-    margin-bottom: 30px;
+    margin: 25px 0 30px;
 }
 
 .info_section .social_container .social_box {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
 }
 
@@ -1256,22 +1299,36 @@ a:focus {
     margin: 0 10px;
     color: #ffffff;
     font-size: 24px;
+    transition: color 0.3s ease;
+}
+
+.info_section .social_container .social_box a:hover {
+    color: #f89cab;
 }
 
 .info_section .info_form form input {
     outline: none;
     width: 100%;
-    padding: 7px 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .info_section .info_form form button {
-    padding: 8px 35px;
+    padding: 10px 35px;
     outline: none;
     border: none;
     color: #ffffff;
     background: #f89cab;
-    margin-top: 15px;
+    border-radius: 4px;
+    margin-top: 10px;
     text-transform: uppercase;
+    transition: background 0.3s ease;
+}
+
+.info_section .info_form form button:hover {
+    background: #e57b93;
 }
 
 .info_section .row > div {
@@ -1280,27 +1337,27 @@ a:focus {
 
 .info_section a {
     text-transform: none;
+    text-decoration: none;
 }
 
 .info_section h6 {
     font-weight: bold;
     text-transform: uppercase;
     font-size: 18px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .info_section p {
     color: #cbc9c9;
+    line-height: 1.6;
 }
 
 .info_section .info_link-box a {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     margin: 15px 0;
+    color: #cbc9c9;
+    transition: color 0.3s ease;
 }
 
 .info_section .info_link-box a:hover {
@@ -1309,23 +1366,37 @@ a:focus {
 
 .info_section .info_link-box a i {
     color: #ffffff;
-    margin-right: 5px;
+    margin-right: 10px;
     font-size: 18px;
+    transition: color 0.3s ease;
 }
 
 .info_section .info_link-box a span {
     color: #cbc9c9;
+    transition: color 0.3s ease;
 }
 
 .info_section .info_link-box a:hover span {
     color: #ffffff;
 }
 
-/* end info section */
-/* footer section*/
 .footer_section {
-    margin-top: 45px;
-    font-weight: 500;
+    flex-shrink: 0;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #333;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.footer_section a {
+    color: #f89cab;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer_section a:hover {
+    color: #e57b93;
 }
 
 .footer_section p {
@@ -1335,10 +1406,5 @@ a:focus {
     border-top: 1.5px solid #eeeeee;
     width: 80%;
 }
-
-.footer_section a {
-    color: #cbc9c9;
-}
-
 /* end footer section*/
 /*# sourceMappingURL=style.css.map */

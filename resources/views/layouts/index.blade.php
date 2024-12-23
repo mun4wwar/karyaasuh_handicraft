@@ -33,6 +33,7 @@
     <!-- info section -->
     @include('home.footer')
 
+    @include('home.scripts')
 </body>
 
 </html>
