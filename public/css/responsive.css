@@ -3,13 +3,25 @@
         padding: 0;
     }
 }
+/* Responsive styling */
+@media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column; /* Susun vertikal untuk layar kecil */
+        gap: 10px;
+    }
+}
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
     .user_option {
         justify-content: center;
+        flex-direction: column; /* Susun vertikal pada layar kecil */
+        gap: 10px; /* Jarak antar elemen lebih kecil */
         margin-left: 0;
         margin-top: 10px;
-
+    }
+    .user_option .btn {
+        width: 100%; /* Tombol memenuhi lebar kontainer */
+        text-align: center; /* Posisikan teks di tengah */
     }
 
     .custom_nav-container {
@@ -93,14 +105,22 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
     }
 
     .info_section {
         margin: 0 25px 25px;
     }
+}
 
+@media (max-width: 768px) {
+    .about_section .row {
+        flex-direction: column;
+        text-align: center;
+    }
 
+    .about_section .detail-box {
+        padding: 0;
+    }
 }
 
 @media (max-width: 576px) {
@@ -111,19 +131,14 @@
 }
 
 @media (max-width: 480px) {
-
     .saving_section .detail-box,
     .gift_section .detail-box {
         padding: 0 5px;
     }
 }
 
-@media (max-width: 420px) {}
-
-@media (max-width: 376px) {}
-
 @media (min-width: 1200px) {
     .container {
-        max-width: 1170px;
+        max-width: 1400px;
     }
 }

@@ -1,42 +1,3 @@
-{{-- <!-- Sidebar Navigation-->
-<nav id="sidebar">
-    <!-- Sidebar Header-->
-    <div class="sidebar-header d-flex align-items-center">
-        <div class="avatar">
-            <img src="{{ asset('/admincss/img/avatar-6.jpg') }}" alt="..." class="img-fluid rounded-circle">
-        </div>
-        <div class="title">
-            <h1 class="h5">Awang</h1>
-            <p>Munawwar Hibatullah</p>
-        </div>
-    </div>
-
-    <!-- Sidebar Navigation Menus-->
-    <span class="heading">Main</span>
-    <ul class="list-unstyled">
-        <li><a href="{{ url('admin/dashboard') }}"> <i class="icon-home"></i>Beranda </a></li>
-        <li><a href="{{ url('view_category') }}"> <i class="icon-grid"></i>Kategori </a></li>
-        <li><a href="#productDropdown" aria-expanded="false" data-toggle="collapse">
-                <i class="icon-windows"></i>Produk
-            </a>
-            <ul id="productDropdown" class="collapse list-unstyled">
-                <li><a href="{{ url('add_product') }}">Tambah Produk</a></li>
-                <li><a href="{{ url('view_product') }}">Daftar Produk</a></li>
-            </ul>
-        </li>
-        <li><a href="#supplierDropdown" aria-expanded="false" data-toggle="collapse">
-                <i class="icon-windows"></i>Supplier
-            </a>
-            <ul id="supplierDropdown" class="collapse list-unstyled">
-                <li><a href="{{ url('add_supplier') }}">Tambah Supplier</a></li>
-                <li><a href="{{ url('supplier') }}">Daftar Supplier</a></li>
-            </ul>
-        </li>
-        <li><a href="{{ url('view_orders') }}"> <i class="icon-grid"></i>Orders </a></li>
-    </ul>
-</nav> --}}
-
-
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
@@ -86,12 +47,12 @@
                         <a class="nav-link" href="{{ url('add_supplier') }}">Tambah Supplier</a>
                     </nav>
                 </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                     data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Pages
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
+                </a> --}}
                 <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">

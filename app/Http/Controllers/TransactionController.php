@@ -43,8 +43,9 @@ class TransactionController extends Controller
                 $transaction->payment_proof = $filename;
             }
 
-            // Ubah status pembayaran menjadi 'waiting'
-            $transaction->payment_status = 'waiting';
+            // Ubah status pembayaran menjadi 'paid'
+            $transaction->payment_status = 'paid';
+            $transaction->payment_date = now();
             $transaction->save();
 
             return redirect()->back()->with('success', 'Bukti pembayaran berhasil diunggah. Mohon tunggu verifikasi.');

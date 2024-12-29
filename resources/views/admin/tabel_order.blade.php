@@ -7,7 +7,7 @@
         <table id="datatablesSimple" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Costumer Name</th>
+                    <th>Customer Name</th>
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Product Title</th>
@@ -16,13 +16,14 @@
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Payment Proof</th>
+                    <th>Confirm Payment</th>
                     <th>Change Status</th>
                     <th>Print PDF</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Costumer Name</th>
+                    <th>Customer Name</th>
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Product Title</th>
@@ -33,6 +34,7 @@
                     <th>Payment Proof</th>
                     <th>Change Status</th>
                     <th>Print PDF</th>
+                    <th>Confirm Payment</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -49,10 +51,10 @@
                             @endforeach
                         </td>
 
-                        <!-- Menampilkan harga per produk dan total harga -->
+                        <!-- Menampilkan harga per produk -->
                         <td>
                             @foreach ($order->products as $product)
-                                <p>Rp. {{ $product->price }}</p>
+                                <p>Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
                             @endforeach
                         </td>
 
@@ -86,25 +88,46 @@
                                 <span style="color: rgb(0, 202, 0)">{{ $order->status }}</span>
                             @endif
                         </td>
+
                         <!-- Menampilkan Payment Proof -->
                         <td>
                             @if ($order->transaction && $order->transaction->payment_proof)
-                                <p>{{ $order->transaction->payment_proof }}</p> <!-- Debug: Menampilkan nama file -->
                                 <a href="{{ asset('storage/payment_proofs/' . $order->transaction->payment_proof) }}"
                                     target="_blank" class="btn btn-success btn-sm">View Proof</a>
                             @else
                                 <span class="text-danger">Not Uploaded</span>
                             @endif
                         </td>
+                        <!-- Tombol Confirm Payment -->
+                        <td>
+                            @if ($order->transaction && $order->transaction->payment_proof)
+                                @if ($order->transaction->payment_status == 'paid')
+                                    <!-- Cek payment_status 'paid' -->
+                                    <a href="{{ url('confirm_payment', $order->id) }}" class="btn btn-primary btn-sm"
+                                        @if ($order->transaction->payment_status == 'confirmed') disabled @endif>Confirm</a>
+                                @elseif($order->transaction->payment_status == 'confirmed')
+                                    <!-- Jika sudah 'confirmed', tampilkan pesan -->
+                                    <span class="text-success">Payment Confirmed</span>
+                                @endif
+                            @else
+                                <span class="text-danger">No Proof</span>
+                            @endif
+                        </td>
 
                         <!-- Tombol status -->
                         <td>
-                            <a class="btn btn-info" href="{{ url('on_the_way', $order->id) }}">On the way</a>
-                            <a class="btn btn-success" href="{{ url('delivered', $order->id) }}">Delivered</a>
+                            <a class="btn btn-info btn-sm mb-2" href="{{ url('on_the_way', $order->id) }}">On the
+                                way</a>
+                            <a class="btn btn-success btn-sm" href="{{ url('delivered', $order->id) }}">Delivered</a>
                         </td>
+
                         <!-- Tombol Print PDF -->
                         <td>
-                            <a class="btn btn-secondary" href="{{ url('print_pdf', $order->id) }}">Print PDF</a>
+                            <a class="btn btn-secondary btn-sm mb-2" href="{{ url('print_pdf', $order->id) }}">Print
+                                PDF</a>
+                            <a class="btn btn-secondary btn-sm" href="{{ route('invoice.show', $order->id) }}">Show
+                                Invoice</a>
+
                         </td>
                     </tr>
                 @endforeach

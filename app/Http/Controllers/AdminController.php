@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\Supplier;
 use App\Models\Bahanbaku;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -13,6 +14,38 @@ use Pest\Plugins\Parallel\Support\CompactPrinter;
 
 class AdminController extends Controller
 {
+    public function index()
+    {
+        // Hitung jumlah user dengan usertype 'user'
+        $userCount = User::where('usertype', 'user')->count();
+        $visitorCount = "-";
+
+        // Hitung total produk
+        $productCount = Product::count();
+
+        // Hitung total orderan berdasarkan jumlah quantity
+        $orderCount = Order::sum('quantity');
+
+        // Hitung jumlah order unik berdasarkan order_id
+        $uniqueOrderCount = Order::distinct('id')->count('id');
+
+        // Hitung total orderan dengan status 'delivered'
+        $delivered = Order::where('status', 'delivered')->count();
+
+        // Ambil data order dengan relasi product dan urutkan sesuai status
+        $data = Order::with('products')
+            ->orderByRaw("
+        CASE
+            WHEN status = 'On the way' THEN 1
+            WHEN status = 'Pending' THEN 2
+            ELSE 3
+        END
+    ")
+            ->paginate(10);
+        // Kirim data ke view
+        return view('admin.index', compact('userCount', 'productCount', 'orderCount', 'uniqueOrderCount', 'delivered', 'data', 'visitorCount'));
+    }
+
     public function view_category()
     {
         $data = Category::all();
@@ -181,6 +214,24 @@ class AdminController extends Controller
         return view('admin.order', compact('data', 'total'));
     }
 
+    public function confirmPayment($orderId)
+    {
+        // Temukan order berdasarkan ID
+        $order = Order::findOrFail($orderId);
+
+        // Cek apakah status transaksi adalah 'paid'
+        if ($order->transaction && $order->transaction->payment_status == 'paid') {
+            // Update status transaksi menjadi 'confirmed'
+            $order->transaction->update([
+                'payment_status' => 'confirmed',
+            ]);
+
+            return redirect()->back()->with('success', 'Payment has been confirmed');
+        }
+
+        return redirect()->back()->with('error', 'Invalid payment status');
+    }
+
     public function on_the_way($id)
     {
         $data = Order::find($id);
@@ -201,12 +252,29 @@ class AdminController extends Controller
         return redirect('/view_orders');
     }
 
+    public function showInvoice($orderId)
+    {
+        // Ambil order berdasarkan ID
+        $data = Order::with(['products', 'transaction'])->findOrFail($orderId);
+
+        return view('admin.invoice', compact('data'));
+    }
+
     public function print_pdf($id)
     {
+        // Ambil data order berdasarkan ID
         $data = Order::find($id);
+
+        // Tentukan nama file berdasarkan ID dan nama order
+        $fileName = 'Invoice_' . $data->id . '_' . str_replace(' ', '_', $data->name) . '.pdf';
+
+        // Load view invoice dan buat PDF
         $pdf = Pdf::loadView('admin.invoice', compact('data'));
-        return $pdf->download('invoice.pdf');
+
+        // Download PDF dengan nama yang telah disesuaikan
+        return $pdf->download($fileName);
     }
+
     public function laporan_penjualan()
     {
         // Ambil data pesanan dengan pengurutan

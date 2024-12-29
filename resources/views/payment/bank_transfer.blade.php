@@ -19,7 +19,7 @@
             <li class="list-group-item"><strong>Nama Pemilik:</strong> {{ $bankDetails['account_name'] }}</li>
         </ul>
         <div class="alert alert-info mt-4">
-            Setelah transfer, silakan konfirmasi pembayaran melalui halaman konfirmasi pembayaran.
+            Setelah transfer, silakan konfirmasi pembayaran melalui laman <a href="{{ route('orders_page') }}"><b>Orderan saya</b></a>.
         </div>
         <a href="{{ url('/') }}" class="btn btn-primary mt-3 w-100">Kembali ke Beranda</a>
     </div>

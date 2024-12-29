@@ -66,7 +66,7 @@
     </div>
     
     @include('home.footer')
-    
+    @include('home.scripts')
     <script>
         function confirmDelete(url) {
             Swal.fire({

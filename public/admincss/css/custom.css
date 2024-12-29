@@ -4905,13 +4905,27 @@ fieldset:disabled .btn {
     --bs-alert-border-color: transparent;
     --bs-alert-border: 1px solid var(--bs-alert-border-color);
     --bs-alert-border-radius: 0.375rem;
-    position: relative;
+    position: fixed; /* Ubah dari relative ke fixed */
+    top: 80px; /* Tentukan jarak dari header */
+    left: 50%; /* Untuk memusatkan pesan */
+    transform: translateX(-50%); /* Supaya benar-benar di tengah */
+    z-index: 1000; /* Pastikan ini lebih tinggi dari elemen lain */
     padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
-    margin-bottom: var(--bs-alert-margin-bottom);
     color: var(--bs-alert-color);
     background-color: var(--bs-alert-bg);
     border: var(--bs-alert-border);
     border-radius: var(--bs-alert-border-radius);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .alert-heading {
@@ -11431,7 +11445,7 @@ body {
 .sb-topnav {
     padding-left: 0;
     height: 56px;
-    z-index: 1039;
+    z-index: 1000;
 }
 .sb-topnav .navbar-brand {
     width: 225px;

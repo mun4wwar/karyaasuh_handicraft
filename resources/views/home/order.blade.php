@@ -64,7 +64,7 @@
                             @if ($order->status == 'Pending') bg-warning 
                             @elseif ($order->status == 'On the way') bg-info 
                             @elseif ($order->status == 'Delivered') bg-success 
-                            @else bg-secondary @endif">
+                            @else bg-primary @endif">
                                     {{ $order->status }}
                                 </span>
                             </td>

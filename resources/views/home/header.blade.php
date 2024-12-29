@@ -39,7 +39,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
                                 <span class="dropdown-item">
-                                    <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
+                                    <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->usertype }} | {{ Auth::user()->name }}
                                 </span>
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">

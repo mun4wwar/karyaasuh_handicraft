@@ -309,14 +309,6 @@ body {
     transition: all 0.3s ease; /* Animasi halus */
 }
 
-/* Responsive styling */
-@media (max-width: 768px) {
-    .navbar-nav {
-        flex-direction: column; /* Susun vertikal untuk layar kecil */
-        gap: 10px;
-    }
-}
-
 a,
 a:hover,
 a:focus {
@@ -421,19 +413,6 @@ a:focus {
 
 .user_option a:hover i {
     color: #0d2846; /* Warna ikon lebih gelap saat hover */
-}
-
-/* Responsive styling */
-@media (max-width: 768px) {
-    .user_option {
-        flex-direction: column; /* Susun vertikal pada layar kecil */
-        gap: 10px; /* Jarak antar elemen lebih kecil */
-    }
-
-    .user_option .btn {
-        width: 100%; /* Tombol memenuhi lebar kontainer */
-        text-align: center; /* Posisikan teks di tengah */
-    }
 }
 /*end header section*/
 
@@ -992,17 +971,7 @@ a:focus {
     margin-bottom: 20px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .about_section .row {
-        flex-direction: column;
-        text-align: center;
-    }
 
-    .about_section .detail-box {
-        padding: 0;
-    }
-}
 .contact_section {
     position: relative;
 }

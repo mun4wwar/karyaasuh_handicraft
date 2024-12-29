@@ -11,6 +11,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'order_id',
+        'transaction_id',
         'payment_proof',
         'payment_status',
         'payment_method',

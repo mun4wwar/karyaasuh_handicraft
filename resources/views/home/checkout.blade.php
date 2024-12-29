@@ -106,9 +106,11 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Nama lengkap"
                         value="{{ Auth::user()->name }}" required>
                 </div>
-                <textarea class="form-control" id="address" name="rec_address" rows="3"
-                    placeholder="Contoh: Jl. Merdeka No.123, Kelurahan ABC, Kota XYZ" required></textarea>
-
+                <div class="mb-3">
+                    <label for="rec_address" class="form-label">Alamat Penerima</label>
+                    <textarea class="form-control" id="address" name="rec_address" rows="3"
+                        placeholder="Contoh: Jl. Merdeka No.123, Kelurahan ABC, Kota XYZ" required></textarea>
+                </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Nomor Telepon</label>
                     <input type="tel" class="form-control" id="phone" name="phone"
@@ -142,8 +144,8 @@
             </form>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    @include('home.scripts')
 </body>
 
 </html>
