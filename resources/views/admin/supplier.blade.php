@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Daftar produk</h1>
+        <h1 class="mt-4">Daftar Supplier</h1>
         <ol class="breadcrumb mb-4">
             <form action="{{ url('product_search') }}" method="GET">
                 @csrf
@@ -21,7 +21,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Panti Asuhan</th>
+                            <th>Nama Supplier</th>
                             <th>Kontak</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
@@ -29,12 +29,10 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Nama Produk</th>
-                            <th>Deskripsi</th>
-                            <th>Harga</th>
-                            <th>Kategori</th>
-                            <th>Jumlah</th>
-                            <th>Gambar Produk</th>
+                            <th>No</th>
+                            <th>Nama Supplier</th>
+                            <th>Kontak</th>
+                            <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -48,7 +46,6 @@
                                 <td>{{ $supplier->kontak }}</td>
                                 <td>{{ $supplier->alamat }}</td>
                                 <td>
-                                    <a href="{{ url('edit_supplier', $supplier->id) }}" class="btn btn-warning">Edit</a>
                                     <a href="{{ url('delete_supplier', $supplier->id) }}" class="btn btn-danger">Hapus</a>
                                 </td>
                             </tr>

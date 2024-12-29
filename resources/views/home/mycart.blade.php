@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
     @include('home.css')
@@ -33,33 +33,29 @@
                             style="display: flex; align-items: center;">
                             @csrf
                             <!-- Tombol Kurangi -->
-                            <button type="submit" name="action" value="decrease" class="quantity-btn">-</button>
+                            <button type="submit" name="action" value="decrease" class="quantity-btn"
+                                aria-label="Kurangi jumlah">-</button>
 
                             <!-- Input Jumlah Item -->
                             <input type="number" name="quantity" value="{{ $item->quantity }}"
                                 style="width: 50px; text-align: center; border: 1px solid #ddd; border-radius: 4px;"
-                                readonly>
+                                min="1">
 
                             <!-- Tombol Tambah -->
-                            <button type="submit" name="action" value="increase" class="quantity-btn">+</button>
+                            <button type="submit" name="action" value="increase" class="quantity-btn"
+                                aria-label="Tambah jumlah">+</button>
                         </form>
                     </div>
                 </div>
             @endforeach
-
-
         @endif
 
         <!-- Summary -->
         <div class="cart-summary">
             <h3>Ringkasan Belanja</h3>
             <div class="summary-item">
-                @if ($total > 0)
-                    <span>Total Belanja Anda:</span>
-                    <span>Rp. {{ number_format($total, 0, ',', '.') }}</span>
-                @else
-                    Total Belanja Anda: <span>Rp 0</span>
-                @endif
+                <span>Total Belanja Anda:</span>
+                <span>Rp. {{ number_format($total, 0, ',', '.') }}</span>
             </div>
             <div class="summary-item summary-total">
                 <span>Total</span>
@@ -68,7 +64,9 @@
             <a class="checkout-btn" href="{{ route('checkoutPage') }}">Lanjutkan ke Checkout</a>
         </div>
     </div>
-
+    
+    @include('home.footer')
+    
     <script>
         function confirmDelete(url) {
             Swal.fire({
@@ -88,7 +86,6 @@
         }
     </script>
 
-    @include('home.footer')
 </body>
 
 </html>

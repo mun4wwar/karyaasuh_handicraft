@@ -168,13 +168,15 @@ class AdminController extends Controller
     public function view_order()
     {
         $total = Order::all()->sum('quantity');
-        $data = Order::orderByRaw("
-        CASE
-            WHEN status = 'On the way' THEN 1
-            WHEN status = 'Pending' THEN 2
-            ELSE 3
-        END
-        ")->paginate(10);
+        $data = Order::with('transaction') // Tambahkan eager loading untuk 'transaction'
+            ->orderByRaw("
+            CASE
+                WHEN status = 'On the way' THEN 1
+                WHEN status = 'Pending' THEN 2
+                ELSE 3
+            END
+        ")
+            ->paginate(10);
 
         return view('admin.order', compact('data', 'total'));
     }

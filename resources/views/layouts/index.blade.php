@@ -19,10 +19,8 @@
     </div>
     <!-- end hero area -->
 
-
-    <!-- shop section -->
+    <!-- product section -->
     @include('home.product')
-    <!-- end shop section -->
 
     <!-- contact section -->
     @include('home.contact')

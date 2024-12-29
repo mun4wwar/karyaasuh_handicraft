@@ -17,7 +17,7 @@ class Order extends Model
         'payment',
         'status',
         'total_harga',
-    ];    
+    ];
 
     // Relasi ke User
     public function user()
@@ -25,16 +25,17 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relasi ke Product (satu produk per order)
+    // Relasi ke Product (melalui tabel pivot order_products)
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_products')
             ->withPivot('quantity')
             ->withTimestamps();
     }
-    public function transaction()
-{
-    return $this->hasOne(Transaction::class);
-}
 
+    // Relasi ke Transaction
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'order_id', 'id');
+    }
 }

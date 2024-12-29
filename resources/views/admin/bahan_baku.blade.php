@@ -49,13 +49,13 @@
                                 <td>
                                     <a href="{{ route('bahan.edit', $bahan->id_bahanbaku) }}"
                                         class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('bahan.destroy', $bahan->id_bahanbaku) }}" method="POST"
+                                    {{-- <form action="{{ route('bahan.destroy', $bahan->id_bahanbaku) }}" method="POST"
                                         style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                                    </form>
+                                    </form> --}}
                                 </td>
                             </tr>
                         @endforeach

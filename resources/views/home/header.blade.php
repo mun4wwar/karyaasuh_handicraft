@@ -17,14 +17,10 @@
                 <li class="nav-item {{ Request::is('tentang-kami') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/tentang-kami') }}">Why Us</a>
                 </li>
-                <li class="nav-item {{ Request::is('testimonial') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/testimonial') }}">Testimonial</a>
-                </li>
-                <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
-                </li>
+                </li> --}}
             </ul>
-
             <div class="user_option">
                 @if (Route::has('login'))
                     @auth
@@ -35,15 +31,26 @@
                             <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                             {{ $count }}
                         </a>
-                        <form class="form-inline">
-                            <button class="btn nav_search-btn" type="submit">
-                                <i class="fa fa-search" aria-hidden="true"></i>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" type="button" id="accountDropdown"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                Account
                             </button>
-                        </form>
-                        <form style="padding: 10px" method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <input class="btn btn-danger" type="submit" value="Log Out">
-                        </form>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
+                                <span class="dropdown-item">
+                                    <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
+                                </span>
+                                <div class="dropdown-divider"></div>
+                                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     @else
                         <a class="btn btn-primary" href="{{ url('login') }}">
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -59,6 +66,7 @@
         </div>
     </nav>
 </header>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const navbar = document.querySelector(".custom_nav-container");

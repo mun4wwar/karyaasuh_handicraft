@@ -8,15 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     @include('home.css')
     <style>
-        body {
-            background-color: #f7f7f7;
-            font-family: Arial, sans-serif;
-        }
-
         .checkout-container {
-            max-width: 900px;
-            margin: 30px auto;
+            margin: 10px auto;
             padding: 20px;
+            width: 1000px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -67,20 +62,6 @@
 
         .form-section {
             margin-bottom: 30px;
-        }
-
-        .checkout-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .checkout-btn:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>

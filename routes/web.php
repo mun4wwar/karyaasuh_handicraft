@@ -57,7 +57,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 //Supplier
 Route::get('supplier', [SupplierController::class, 'index'])->middleware(['auth', 'admin']);
 Route::get('add_supplier', [SupplierController::class, 'add_supplier'])->middleware(['auth', 'admin']);
-Route::post('upload_supplier', [SupplierController::class, 'upload_supplier'])->middleware(['auth', 'admin']);
+Route::post('upload_supplier', [SupplierController::class, 'upload_supplier'])->name('upload_supplier')->middleware(['auth', 'admin']);
 Route::get('edit_supplier/{id}', [SupplierController::class, 'edit_supplier'])->middleware(['auth', 'admin']);
 Route::post('update_supplier/{id}', [SupplierController::class, 'update_supplier'])->middleware(['auth', 'admin']);
 Route::get('delete_supplier/{id}', [SupplierController::class, 'delete_supplier'])->middleware(['auth', 'admin']);
@@ -83,6 +83,4 @@ Route::middleware('auth')->group(function () {
 Route::post('/transaction/upload', [TransactionController::class, 'upload'])->name('transaction.upload')->middleware(['auth', 'verified']);
 
 // Header navigation
-Route::get('/tentang-kami', function () {
-    return view('home.about');
-});
+Route::get('/tentang-kami', [HomeController::class, 'tentang_kami'])->middleware(['auth', 'verified']);

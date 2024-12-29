@@ -57,7 +57,6 @@
                                 <span class="text-success fw-bold">Rp
                                     {{ number_format($totalPrice, 0, ',', '.') }}</span>
                             </td>
-
                             <!-- Status -->
                             <td>
                                 <span
@@ -69,7 +68,6 @@
                                     {{ $order->status }}
                                 </span>
                             </td>
-
                             <!-- Images -->
                             <td class="product-images">
                                 @foreach ($order->products as $product)
@@ -78,7 +76,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                @if ($order->status === 'Pending')
+                                @if ($order->status === 'Pending' && (!$order->transaction || !$order->transaction->payment_proof))
                                     @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <ul>
@@ -88,7 +86,6 @@
                                             </ul>
                                         </div>
                                     @endif
-
                                     <form action="{{ route('transaction.upload') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
@@ -98,7 +95,7 @@
                                         <button type="submit" class="btn btn-primary mt-3">Upload</button>
                                     </form>
                                 @else
-                                    <span class="text-muted">...</span>
+                                    <span class="text-muted">Bukti pembayaran sudah diunggah.</span>
                                 @endif
                             </td>
                         </tr>
@@ -108,8 +105,7 @@
         </div>
     </div>
     @include('home.footer')
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @include('home.scripts')
 </body>
 
 </html>

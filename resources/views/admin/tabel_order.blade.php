@@ -15,19 +15,24 @@
                     <th>Total Price</th>
                     <th>Quantity</th>
                     <th>Status</th>
+                    <th>Payment Proof</th>
                     <th>Change Status</th>
                     <th>Print PDF</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Nama Produk</th>
-                    <th>Deskripsi</th>
-                    <th>Harga</th>
-                    <th>Kategori</th>
-                    <th>Jumlah</th>
-                    <th>Total Harga</th>
-                    <th>Aksi</th>
+                    <th>Costumer Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Product Title</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Payment Proof</th>
+                    <th>Change Status</th>
+                    <th>Print PDF</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -81,13 +86,22 @@
                                 <span style="color: rgb(0, 202, 0)">{{ $order->status }}</span>
                             @endif
                         </td>
+                        <!-- Menampilkan Payment Proof -->
+                        <td>
+                            @if ($order->transaction && $order->transaction->payment_proof)
+                                <p>{{ $order->transaction->payment_proof }}</p> <!-- Debug: Menampilkan nama file -->
+                                <a href="{{ asset('storage/payment_proofs/' . $order->transaction->payment_proof) }}"
+                                    target="_blank" class="btn btn-success btn-sm">View Proof</a>
+                            @else
+                                <span class="text-danger">Not Uploaded</span>
+                            @endif
+                        </td>
 
                         <!-- Tombol status -->
                         <td>
                             <a class="btn btn-info" href="{{ url('on_the_way', $order->id) }}">On the way</a>
                             <a class="btn btn-success" href="{{ url('delivered', $order->id) }}">Delivered</a>
                         </td>
-
                         <!-- Tombol Print PDF -->
                         <td>
                             <a class="btn btn-secondary" href="{{ url('print_pdf', $order->id) }}">Print PDF</a>
