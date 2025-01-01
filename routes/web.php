@@ -63,6 +63,8 @@ Route::get('print_pdf/{id}', [AdminController::class, 'print_pdf'])->middleware(
 Route::get('invoice/{orderId}', [AdminController::class, 'showInvoice'])->name('invoice.show');
 Route::get('laporan_penjualan', [AdminController::class, 'laporan_penjualan'])->middleware(['auth', 'admin']);
 Route::get('/confirm_payment/{id}', [AdminController::class, 'confirmPayment'])->name('confirm_payment')->middleware(['auth', 'admin']);
+Route::get('send_invoice/{orderId}', [AdminController::class, 'sendInvoice'])->name('send_invoice')->middleware(['auth', 'admin']);
+
 
 
 Route::middleware(['auth', 'admin'])->group(function () {

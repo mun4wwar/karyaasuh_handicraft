@@ -33,7 +33,7 @@
         <div class="container">
             <div class="heading_container heading_center">
                 <h2>
-                    Latest Products
+                    {{ $data->title }}
                 </h2>
             </div>
             <div class="row">
@@ -41,7 +41,7 @@
                     <div class="box">
 
                         <div class="div_center">
-                            <img width="400" src="/products/{{ $data->image }}" alt="">
+                            <img width="400" src="{{ asset('storage/products/' . $data->image) }}" alt="{{ $data->title }}">
                         </div>
                         <div class="detail-box">
                             <h6>{{ $data->title }}</h6>

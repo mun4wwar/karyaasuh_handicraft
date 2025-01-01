@@ -32,9 +32,9 @@
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Payment Proof</th>
+                    <th>Confirm Payment</th>
                     <th>Change Status</th>
                     <th>Print PDF</th>
-                    <th>Confirm Payment</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -91,8 +91,8 @@
 
                         <!-- Menampilkan Payment Proof -->
                         <td>
-                            @if ($order->transaction && $order->transaction->payment_proof)
-                                <a href="{{ asset('storage/payment_proofs/' . $order->transaction->payment_proof) }}"
+                            @if ($order->transactions && $order->transactions->payment_proof)
+                                <a href="{{ asset('storage/payment_proofs/' . $order->transactions->payment_proof) }}"
                                     target="_blank" class="btn btn-success btn-sm">View Proof</a>
                             @else
                                 <span class="text-danger">Not Uploaded</span>
@@ -100,12 +100,12 @@
                         </td>
                         <!-- Tombol Confirm Payment -->
                         <td>
-                            @if ($order->transaction && $order->transaction->payment_proof)
-                                @if ($order->transaction->payment_status == 'paid')
+                            @if ($order->transactions && $order->transactions->payment_proof)
+                                @if ($order->transactions->payment_status == 'paid')
                                     <!-- Cek payment_status 'paid' -->
                                     <a href="{{ url('confirm_payment', $order->id) }}" class="btn btn-primary btn-sm"
-                                        @if ($order->transaction->payment_status == 'confirmed') disabled @endif>Confirm</a>
-                                @elseif($order->transaction->payment_status == 'confirmed')
+                                        @if ($order->transactions->payment_status == 'confirmed') disabled @endif>Confirm</a>
+                                @elseif($order->transactions->payment_status == 'confirmed')
                                     <!-- Jika sudah 'confirmed', tampilkan pesan -->
                                     <span class="text-success">Payment Confirmed</span>
                                 @endif
@@ -123,11 +123,15 @@
 
                         <!-- Tombol Print PDF -->
                         <td>
-                            <a class="btn btn-secondary btn-sm mb-2" href="{{ url('print_pdf', $order->id) }}">Print
-                                PDF</a>
-                            <a class="btn btn-secondary btn-sm" href="{{ route('invoice.show', $order->id) }}">Show
-                                Invoice</a>
-
+                            @if ($order->transactions && $order->transactions->payment_status != 'unpaid')
+                                <a class="btn btn-secondary btn-sm mb-2" href="{{ route('invoice.show', $order->id) }}">Show
+                                    Invoice</a>
+                                <a href="{{ route('send_invoice', $order->id) }}"
+                                    class="btn btn-warning btn-sm">Send Invoice</a>
+                            @else
+                                <span class="text-muted">Not Available</span>
+                            @endif
+                            <!-- Tombol Kirim Invoice -->
                         </td>
                     </tr>
                 @endforeach

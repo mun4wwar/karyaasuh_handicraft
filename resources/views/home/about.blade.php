@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="img-box">
-                        <img src="{{ asset('images/about_us.jpg') }}" alt="Tentang Sonia Handicraft">
+                        <img src="{{ asset('images/about-sonia.jpg') }}" alt="Tentang Sonia Handicraft">
                     </div>
                 </div>
                 <div class="col-md-6">

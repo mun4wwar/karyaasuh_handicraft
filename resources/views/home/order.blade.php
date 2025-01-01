@@ -76,7 +76,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                @if ($order->status === 'Pending' && (!$order->transaction || !$order->transaction->payment_proof))
+                                @if ($order->status === 'Pending' && (!$order->transactions || !$order->transactions->payment_proof))
                                     @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <ul>
@@ -86,7 +86,7 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <form action="{{ route('transaction.upload') }}" method="POST"
+                                    <form action="{{ route('transactions.upload') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">

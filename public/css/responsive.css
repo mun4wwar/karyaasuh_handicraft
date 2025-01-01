@@ -1,13 +1,178 @@
-@media (max-width: 1120px) {
-    .saving_section .detail-box {
-        padding: 0;
+/* Responsive styling */
+
+/* Untuk desktop besar */
+@media (min-width: 1200px) {
+    .custom-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .custom-col {
+        flex: 1 1 18%; /* 4 produk per baris */
+        max-width: 22%;
     }
 }
-/* Responsive styling */
+
+/* Untuk tablet dan ukuran layar sedang */
+@media (max-width: 1200px) {
+    .custom-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .custom-col {
+        flex: 1 1 45%; /* 2 produk per baris */
+        max-width: 45%;
+    }
+
+    .shop_section .heading_container h2 {
+        font-size: 1.75rem;
+    }
+}
+
+/* Untuk layar besar, tampilkan user_option di sebelah kanan */
+@media (min-width: 991px) {
+    .navbar-nav {
+        justify-content: center;
+    }
+
+    .user_option {
+        display: flex;
+        justify-content: center; /* Menjaga user_option di sebelah kanan */
+        align-items: center;
+    }
+}
+/* Untuk tampilan kecil (misalnya perangkat mobile), user_option akan muncul di bawah navbar */
+@media (max-width: 990px) {
+    .navbar-collapse {
+        display: block; /* Menampilkan navbar collapse */
+        text-align: center; /* Mengatur teks di tengah */
+    }
+
+    .navbar-nav {
+        text-align: center; /* Memastikan navbar item tetap rata tengah pada layar kecil */
+    }
+
+    .user_option {
+        display: block; /* Mengubah jadi block di perangkat kecil */
+        text-align: center;
+        margin-top: 10px; /* Memberi jarak di atas */
+    }
+
+    /* Membuat tombol login, register, dan akun dropdown lebih responsif */
+    .user_option .btn {
+        font-size: 12px; /* Menurunkan ukuran font pada perangkat kecil */
+        padding: 6px 12px; /* Menyesuaikan padding */
+    }
+
+    /* Mengatur dropdown untuk perangkat mobile */
+    .dropdown-menu {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Menyesuaikan tampilan navbar-toggler (hamburger) */
+    .navbar-toggler {
+        margin-right: 15px
+    }
+
+    .navbar-toggler-icon {
+        background-color: #007bff; /* Menyesuaikan warna hamburger */
+        border-radius: 5px;
+    }
+}
+
+/* Untuk smartphone (berukuran kecil) */
+@media (max-width: 768px) {
+    .custom-col {
+        flex: 1 1 100%; /* 1 produk per baris */
+        max-width: 100%;
+    }
+
+    .shop_section .heading_container h2 {
+        font-size: 1.5rem;
+    }
+
+    .product-name,
+    .product-price {
+        font-size: 1rem;
+    }
+}
+
+/* Untuk layar kecil (lebih kecil dari 576px) */
+@media (max-width: 576px) {
+    .custom-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .hero_area {
+        padding: 0;
+    }
+
+    .product-name,
+    .product-price {
+        font-size: 0.9rem;
+    }
+    .user_option .btn {
+        font-size: 11px; /* Menurunkan ukuran font lebih kecil */
+        padding: 5px 10px; /* Menyesuaikan padding */
+    }
+    
+    .navbar-brand span {
+        font-size: 24px; /* Menyesuaikan ukuran font pada brand */
+        margin-left: 15px;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar-nav {
-        flex-direction: column; /* Susun vertikal untuk layar kecil */
-        gap: 10px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .user_option {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .user_option {
+        display: none; /* Menyembunyikan opsi user pada layar kecil */
+    }
+
+    .navbar-toggler {
+        display: block; /* Menampilkan tombol toggle pada layar kecil */
+    }
+}
+
+/* Pada layar lebih kecil */
+@media (max-width: 768px) {
+    .hero_area {
+        padding: 0 25px;
+        height: 100%;
+    }
+    .slider_section {
+        padding-top: 70px;
+    }
+    .slider_section .img-box {
+        margin-bottom: 45px;
+    }
+    .slider_section .slider_container {
+        margin: auto;
+        padding: 10px;
+    }
+    .slider_section .carousel-inner {
+        height: auto; /* Mengatur tinggi slider lebih kecil di ponsel */
+    }
+    .slider_section .detail-box h1 {
+        font-size: 3rem;
     }
 }
 
@@ -31,17 +196,16 @@
     .custom_nav-container .navbar-nav {
         align-items: center;
     }
+    .custom_nav-container .user_option {
+        align-items: center;
+        display: grid;
+    }
 
     #navbarSupportedContent .navbar-nav .nav-link {
         margin: 5px 0;
     }
-
-    .slider_section .detail-box {
-        padding-left: 0;
-    }
-
-    .slider_section .detail-box h1 {
-        font-size: 3rem;
+    #navbarSupportedContent .user_option {
+        margin: 5px 0;
     }
 
     .slider_section .img-box {
@@ -53,7 +217,6 @@
     }
 
     .saving_section .detail-box {
-
         margin-bottom: 30px;
     }
 
@@ -77,14 +240,6 @@
 }
 
 @media (max-width: 768px) {
-    .hero_area {
-        padding: 0 25px;
-    }
-
-    .slider_section .img-box {
-        margin-bottom: 45px;
-    }
-
     .saving_section,
     .gift_section {
         padding-left: 25px;
@@ -100,7 +255,7 @@
         margin-bottom: 45px;
     }
 
-    .info_section .row>div {
+    .info_section .row > div {
         text-align: center;
         display: flex;
         flex-direction: column;

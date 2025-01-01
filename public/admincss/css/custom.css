@@ -8092,6 +8092,7 @@ fieldset:disabled .btn {
 
 .mt-auto {
     margin-top: auto !important;
+    padding: 10px;
 }
 
 .me-0 {

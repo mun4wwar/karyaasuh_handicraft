@@ -8,8 +8,8 @@
     <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
 </head>
 
-<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+<body class="min-h-screen flex items-center justify-center" style="background: url('{{ asset('images/bg-page.jpg') }}') no-repeat center center / cover; background-attachment: fixed;">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Create Your Account</h2>
         <p class="text-sm text-gray-500 text-center mb-6">Fill out the form below to get started!</p>
 

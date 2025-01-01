@@ -2,7 +2,8 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <!-- Mobile Metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <!-- Site Metas -->
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -21,6 +22,7 @@
 
 <!-- bootstrap core css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
 <!-- Custom styles for this template -->
 <link href="{{ asset('css/style.css') }}" rel="stylesheet" />

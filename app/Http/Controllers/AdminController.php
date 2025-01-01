@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Supplier;
 use App\Models\Bahanbaku;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
 use Pest\Plugins\Parallel\Support\CompactPrinter;
 
 class AdminController extends Controller
@@ -255,9 +257,24 @@ class AdminController extends Controller
     public function showInvoice($orderId)
     {
         // Ambil order berdasarkan ID
-        $data = Order::with(['products', 'transaction'])->findOrFail($orderId);
+        $data = Order::with(['products', 'transactions'])->findOrFail($orderId);
+        $totalAmount = $data->products->sum(function ($product) {
+            return $product->price * $product->pivot->quantity;
+        });
 
-        return view('admin.invoice', compact('data'));
+        return view('admin.invoice', compact('data', 'totalAmount'));
+    }
+
+    public function sendInvoice($orderId)
+    {
+        // Temukan order berdasarkan ID
+        $order = Order::with(['products', 'transactions'])->findOrFail($orderId);
+
+        // Kirim email dengan invoice
+        Mail::to($order->user->email)->send(new InvoiceMail($order));
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->back()->with('success', 'Invoice has been sent to the user.');
     }
 
     public function print_pdf($id)

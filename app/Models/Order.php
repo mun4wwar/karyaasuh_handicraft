@@ -34,7 +34,7 @@ class Order extends Model
     }
 
     // Relasi ke Transaction
-    public function transaction()
+    public function transactions()
     {
         return $this->hasOne(Transaction::class, 'order_id', 'id');
     }

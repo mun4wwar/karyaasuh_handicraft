@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     @include('home.css')
@@ -23,7 +23,7 @@
             <div class="custom-row">
                 @foreach ($products as $product)
                     <div class="custom-col">
-                        <div class="box">
+                        <div class="box d-flex flex-column position-relative">
                             <div class="img-box">
                                 <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->title }}">
                             </div>
@@ -60,7 +60,6 @@
                     <div class="empty-col"></div>
                 @endfor
             </div>
-
 
             <!-- Tambahkan Pagination -->
             <div class="d-flex justify-content-center mt-4">

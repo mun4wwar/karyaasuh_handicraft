@@ -6,7 +6,12 @@
             </span>
         </a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse mx-auto" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
@@ -39,7 +44,8 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
                                 <span class="dropdown-item">
-                                    <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->usertype }} | {{ Auth::user()->name }}
+                                    <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->usertype }} |
+                                    {{ Auth::user()->name }}
                                 </span>
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
@@ -66,17 +72,3 @@
         </div>
     </nav>
 </header>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const navbar = document.querySelector(".custom_nav-container");
-
-        window.addEventListener("scroll", function() {
-            if (window.scrollY > 50) { // Ketika user scroll lebih dari 50px
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-        });
-    });
-</script>

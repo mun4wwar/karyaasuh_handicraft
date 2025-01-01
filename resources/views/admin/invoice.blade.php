@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="x-apple-disable-message-reformatting">
     <title>Invoice #{{ $data->id }} - {{ $data->name }}</title>
+    <link rel="shortcut icon" href="{{ asset('/admincss/img/favicon.ico') }}">
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            margin-top: 50px;
+            margin: 20px;
             padding: 0;
         }
+
         .container {
-            width: 280px;
+            width: 90%;
+            max-width: 400px;
             margin: 0 auto;
             border: 1px solid #000;
             padding: 10px;
         }
-        .header, .footer {
+
+        .header,
+        .footer {
             text-align: center;
         }
+
         .header h2 {
             margin: 0;
             padding: 5px 0;
         }
+
         .footer p {
             font-size: 12px;
         }
-        .invoice-details {
+
+        .invoice-details,
+        .products {
             margin-top: 10px;
         }
-        .invoice-details h3 {
+
+        .invoice-details h3,
+        .product h4 {
             margin: 5px 0;
             font-size: 14px;
         }
+
         .product {
             margin-top: 10px;
             padding-bottom: 10px;
             border-bottom: 1px dashed #000;
         }
-        .product h4 {
-            margin: 5px 0;
-            font-size: 12px;
-        }
+
         .total {
             font-weight: bold;
             margin-top: 15px;
             text-align: center;
         }
+
         .status {
             margin-top: 10px;
             text-align: center;
             font-weight: bold;
         }
+
         .line {
             border-top: 1px dashed #000;
             margin: 10px 0;
@@ -66,6 +80,7 @@
         <div class="header">
             <h2>INVOICE</h2>
             <p>Order ID: {{ $data->id }}</p>
+            <p>{{ $data->transactions ? $data->transactions->transaction_id : 'Transaction ID not available' }}</p>
         </div>
 
         <!-- Invoice Details -->
@@ -77,19 +92,21 @@
 
         <!-- Products -->
         <div class="products">
-            @php
-                $totalAmount = 0;
-            @endphp
-            @foreach ($data->products as $product)
-                <div class="product">
-                    <h4>Product: {{ $product->title }}</h4>
-                    <h4>Qty: {{ $product->pivot->quantity }} | Price: Rp. {{ number_format($product->price, 0, ',', '.') }}</h4>
-                    <h4>Total: Rp. {{ number_format($product->price * $product->pivot->quantity, 0, ',', '.') }}</h4>
-                </div>
-                @php
-                    $totalAmount += $product->price * $product->pivot->quantity;
-                @endphp
-            @endforeach
+            @if ($data->products->isEmpty())
+                <p>No products available.</p>
+            @else
+                @php $totalAmount = 0; @endphp
+                @foreach ($data->products as $product)
+                    <div class="product">
+                        <h4>Product: {{ $product->title }}</h4>
+                        <h4>Qty: {{ $product->pivot->quantity }} | Price: Rp.
+                            {{ number_format($product->price, 0, ',', '.') }}</h4>
+                        <h4>Total: Rp. {{ number_format($product->price * $product->pivot->quantity, 0, ',', '.') }}
+                        </h4>
+                    </div>
+                    @php $totalAmount += $product->price * $product->pivot->quantity; @endphp
+                @endforeach
+            @endif
         </div>
 
         <!-- Total Amount -->
@@ -100,10 +117,10 @@
 
         <!-- Payment Status -->
         <div class="status">
-            <h3>Payment Status: 
-                @if ($data->transaction->payment_status == 'paid')
+            <h3>Payment Status:
+                @if ($data->transactions && $data->transactions->payment_status == 'paid')
                     Paid
-                @elseif($data->transaction->payment_status == 'confirmed')
+                @elseif ($data->transactions && $data->transactions->payment_status == 'confirmed')
                     Confirmed
                 @else
                     Unpaid
@@ -117,4 +134,5 @@
         </div>
     </div>
 </body>
+
 </html>

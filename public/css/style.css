@@ -8,14 +8,9 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-}
-
-body {
     font-family: "poppins", sans-serif;
     color: #101010;
     background-color: #f8f9fa;
-    display: flex;
-    flex-direction: column;
 }
 
 .layout_padding {
@@ -70,13 +65,6 @@ body {
     text-align: center;
 }
 
-.div_deg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 200px;
-}
-
 .heading_container h2 {
     font-size: 28px;
     font-weight: bold;
@@ -91,11 +79,6 @@ body {
 
 .dropdown-item:hover {
     background-color: #e9ecef;
-}
-
-.scrolled {
-    background-color: #fff !important;
-    transition: background-color 0.3s;
 }
 
 .img-box img {
@@ -218,9 +201,21 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Tambahkan jarak pada konten utama agar tidak tertutup navbar */
-.slider_section {
-    padding-top: 135px; /* Sesuaikan dengan tinggi navbar */
+.custom_nav-container .nav_search-btn {
+    padding: 0;
+    border: none;
+}
+
+.custom_nav-container {
+    z-index: 99999;
+    padding: 0;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 
 #navbarSupportedContent {
@@ -250,12 +245,22 @@ body {
     border-radius: 0 0 15px 15px;
 }
 
+.navbar-toggler {
+    border: #e74c3c;
+}
+
+.navbar-toggler-icon {
+    background-color: #000;
+}
+
 /* Styling untuk navbar menu */
 .navbar-nav {
     display: flex; /* Menyusun item secara horizontal */
     gap: 15px; /* Memberi jarak antar menu */
     align-items: center;
     margin-right: 20px;
+    flex-direction: row;
+    justify-content: center; /* Memastikan navbar item berada di tengah */
 }
 
 /* Styling untuk link menu */
@@ -341,28 +346,14 @@ a:focus {
     padding: 0;
 }
 
-.custom_nav-container .nav_search-btn {
-    padding: 0;
-    border: none;
-}
-
-.custom_nav-container {
-    z-index: 99999;
-    padding: 0;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-
-/* Styling untuk user_option */
+/* Default Styling */
 .user_option {
-    display: flex; /* Menyusun item secara horizontal */
-    align-items: center; /* Posisikan di tengah secara vertikal */
+    display: flex;
+    align-items: center;
     gap: 15px; /* Jarak antar elemen */
+    margin-right: 20px;
+    flex-direction: row;
+    justify-content: center;
 }
 
 /* Styling untuk tombol di user_option */
@@ -373,10 +364,6 @@ a:focus {
     font-weight: 500; /* Ketebalan teks tombol */
     text-transform: capitalize; /* Kapitalisasi awal kata */
     transition: all 0.3s ease; /* Animasi halus */
-}
-
-/* Tombol default (Login, Register, My Orders, My Cart) */
-.user_option .btn {
     color: #fff; /* Warna teks */
     background-color: #007bff; /* Warna latar default */
     border: 1px solid transparent; /* Hilangkan border default */
@@ -402,19 +389,23 @@ a:focus {
 
 /* Icon (Login & Register) */
 .user_option a i {
-    position: relative; /* Pastikan tombol ada di atas */
-    z-index: 10; /* Pastikan elemen berada di lapisan atas */
-    display: inline-block; /* Menghindari konflik dengan elemen lain */
+    position: relative;
+    z-index: 10;
+    display: inline-block;
     visibility: visible;
     text-decoration: none;
     color: #fff;
-    border-radius: 5px; /* Membuat tombol lebih rapi */
+    border-radius: 5px;
 }
 
 .user_option a:hover i {
     color: #0d2846; /* Warna ikon lebih gelap saat hover */
 }
 /*end header section*/
+
+.slider_section {
+    padding-top: 135px; /* Sesuaikan dengan tinggi navbar */
+}
 
 .slider_section .slider_container {
     background: linear-gradient(
@@ -427,6 +418,11 @@ a:focus {
     text-align: center;
     padding: 100px;
     border-radius: 0 0 15px 15px;
+}
+
+.slider_section .carousel-inner img {
+    width: 100%; /* Gambar slider akan memenuhi lebar layar */
+    height: auto; /* Menjaga rasio aspek gambar */
 }
 
 .slider_section .row {
@@ -462,7 +458,6 @@ a:focus {
 }
 
 .slider_section .detail-box {
-    padding: 45px 0; /* Menggantikan margin jika perlu */
     display: flex;
     justify-content: center; /* Pusatkan secara horizontal */
     align-items: center; /* Pusatkan secara vertikal */
@@ -493,37 +488,6 @@ a:focus {
     color: #db4566;
 }
 
-.slider_section .carousel_btn-box {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    background-color: #ffffff;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    position: absolute;
-    bottom: -25px;
-    left: 5%;
-    padding: 7px 10px;
-    border-radius: 5px 5px 0 0;
-}
-
-.slider_section .carousel_btn-box img {
-    margin: 0 10px;
-}
-
-.slider_section .carousel_btn-box .carousel-control-prev,
-.slider_section .carousel_btn-box .carousel-control-next {
-    position: unset;
-    height: 25px;
-    width: 25px;
-    background-repeat: no-repeat;
-    opacity: 1;
-    background-position: center;
-    color: #000000;
-    font-size: 14px;
-}
-
 .shop_section .heading_container {
     margin-bottom: 20px;
 }
@@ -533,6 +497,25 @@ a:focus {
     position: relative;
     padding: 5px;
     margin-bottom: 20px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Untuk memberi jarak antara elemen */
+    height: 100%; /* Pastikan box mengisi kolom sepenuhnya */
+    text-align: center;
+    margin-bottom: 20px; /* Jarak vertikal antar produk */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.box:hover {
+    transform: translateY(-5px);
 }
 
 .shop_section .box a {
@@ -593,25 +576,6 @@ a:focus {
     background-color: #28a745;
 }
 
-.box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Untuk memberi jarak antara elemen */
-    height: 100%; /* Pastikan box mengisi kolom sepenuhnya */
-    text-align: center;
-    margin-bottom: 20px; /* Jarak vertikal antar produk */
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-}
-
-.box:hover {
-    transform: translateY(-5px);
-}
-
 .custom-row {
     display: flex;
     flex-wrap: wrap;
@@ -631,18 +595,6 @@ a:focus {
     visibility: hidden; /* Kolom kosong tidak terlihat */
 }
 
-.detail-box {
-    text-align: center;
-    /* Pastikan teks di tengah */
-    display: flex;
-    flex-direction: column;
-    /* Pastikan elemen diatur secara vertikal */
-    align-items: center;
-    /* Agar elemen tetap di tengah */
-    gap: 5px;
-    /* Memberikan jarak antar elemen */
-}
-
 .product-name {
     font-size: 16px;
     font-weight: bold;
@@ -660,60 +612,6 @@ a:focus {
 .detail-box span {
     font-size: 14px;
     color: #555;
-}
-
-.text-danger,
-.text-warning,
-.text-success {
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.stock-info .btn {
-    font-size: 14px;
-    padding: 8px 15px;
-    border-radius: 20px;
-    margin-top: 0px;
-    text-transform: capitalize;
-}
-
-.stock-info .btn-danger {
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-}
-
-.btn-primary {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-}
-
-.stock-info .btn-secondary {
-    background-color: #bdc3c7;
-    color: #fff;
-    border: none;
-}
-
-.btn-box {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.btn-box a {
-    display: inline-block;
-    background-color: #ff6f61;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.btn-box a:hover {
-    background-color: #e74c3c;
 }
 
 .shop_section .box .new {
@@ -957,6 +855,7 @@ a:focus {
 
 .about_section .img-box img {
     max-width: 100%;
+    height: fit-content;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
