@@ -12,7 +12,7 @@
                     <div class="card-body">Total User</div>
                     <h4 class="text-center">{{ $userCount }}</h4>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="{{ url('admin/users') }}">View Details</a>
+                        <a class="small text-white stretched-link" href="#"></a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     <div class="card-body">Total Produk</div>
                     <h4 class="text-center">{{ $productCount }}</h4>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="{{ url('admin/produk') }}">View Details</a>
+                        <a class="small text-white stretched-link" href="{{ url('view_product') }}">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>

@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Pest\Plugins\Parallel\Support\CompactPrinter;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -20,7 +21,7 @@ class AdminController extends Controller
     {
         // Hitung jumlah user dengan usertype 'user'
         $userCount = User::where('usertype', 'user')->count();
-        $visitorCount = "-";
+        $visitorCount = DB::table('visitors')->count();
 
         // Hitung total produk
         $productCount = Product::count();
@@ -203,7 +204,7 @@ class AdminController extends Controller
     public function view_order()
     {
         $total = Order::all()->sum('quantity');
-        $data = Order::with('transaction') // Tambahkan eager loading untuk 'transaction'
+        $data = Order::with('transactions') // Tambahkan eager loading untuk 'transactions'
             ->orderByRaw("
             CASE
                 WHEN status = 'On the way' THEN 1
@@ -222,9 +223,9 @@ class AdminController extends Controller
         $order = Order::findOrFail($orderId);
 
         // Cek apakah status transaksi adalah 'paid'
-        if ($order->transaction && $order->transaction->payment_status == 'paid') {
+        if ($order->transactions && $order->transactions->payment_status == 'paid') {
             // Update status transaksi menjadi 'confirmed'
-            $order->transaction->update([
+            $order->transactions->update([
                 'payment_status' => 'confirmed',
             ]);
 

@@ -1,4 +1,4 @@
-<div class="card mb-4">
+<div class="card mb-4" id="scrollCard">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
         Daftar Orderan
@@ -93,7 +93,7 @@
                         <td>
                             @if ($order->transactions && $order->transactions->payment_proof)
                                 <a href="{{ asset('storage/payment_proofs/' . $order->transactions->payment_proof) }}"
-                                    target="_blank" class="btn btn-success btn-sm">View Proof</a>
+                                    target="_blank" class="btn btn-success btn-sm mt-2">View Proof</a>
                             @else
                                 <span class="text-danger">Not Uploaded</span>
                             @endif
@@ -116,18 +116,18 @@
 
                         <!-- Tombol status -->
                         <td>
-                            <a class="btn btn-info btn-sm mb-2" href="{{ url('on_the_way', $order->id) }}">On the
+                            <a class="btn btn-info btn-sm mt-2" href="{{ url('on_the_way', $order->id) }}">On the
                                 way</a>
-                            <a class="btn btn-success btn-sm" href="{{ url('delivered', $order->id) }}">Delivered</a>
+                            <a class="btn btn-success btn-sm mt-2" href="{{ url('delivered', $order->id) }}">Delivered</a>
                         </td>
 
                         <!-- Tombol Print PDF -->
                         <td>
                             @if ($order->transactions && $order->transactions->payment_status != 'unpaid')
-                                <a class="btn btn-secondary btn-sm mb-2" href="{{ route('invoice.show', $order->id) }}">Show
+                                <a class="btn btn-secondary btn-sm mt-2" href="{{ route('invoice.show', $order->id) }}">Show
                                     Invoice</a>
                                 <a href="{{ route('send_invoice', $order->id) }}"
-                                    class="btn btn-warning btn-sm">Send Invoice</a>
+                                    class="btn btn-warning btn-sm mt-2">Send Invoice</a>
                             @else
                                 <span class="text-muted">Not Available</span>
                             @endif

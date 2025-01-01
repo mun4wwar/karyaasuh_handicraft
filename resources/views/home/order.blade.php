@@ -86,7 +86,7 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <form action="{{ route('transactions.upload') }}" method="POST"
+                                    <form action="{{ route('transaction.upload') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">

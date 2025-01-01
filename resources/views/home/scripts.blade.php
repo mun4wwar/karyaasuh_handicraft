@@ -15,12 +15,12 @@
         window.addEventListener("scroll", function () {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(function () {
-                if (window.scrollY > 50) {
+                if (window.scrollY > 20) {
                     navbar.classList.add("scrolled");
                 } else {
                     navbar.classList.remove("scrolled");
                 }
-            }, 50);
+            }, 20);
         });
     });
 </script>
